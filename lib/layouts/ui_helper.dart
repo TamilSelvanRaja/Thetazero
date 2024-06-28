@@ -119,19 +119,17 @@ class UiHelper {
     );
   }
 
-  Widget customSmallButton(Function press, String title, {Color bgclr = clr.primaryColor, Color textclr = clr.white}) {
-    return Align(
-        alignment: Alignment.centerRight,
-        child: GestureDetector(
-            onTap: () {
-              press();
-            },
-            child: Container(
-              width: 300,
-              alignment: Alignment.center,
-              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-              decoration: roundedBorderWithColor(15, bgclr),
-              child: textStyle(title, 15, isBold: true, color: textclr),
-            )));
+  Widget customButton(String title, Function press, {Color bgclr = clr.primaryColor, Color textclr = clr.white, double btnWidth = 100}) {
+    return GestureDetector(
+        onTap: () {
+          press();
+        },
+        child: Container(
+          width: btnWidth,
+          alignment: Alignment.center,
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+          decoration: roundedBorderWithColor(10, bgclr, borderColor: clr.primaryColor, borderWidth: 2),
+          child: textStyle(title, 16, isBold: true, color: textclr),
+        ));
   }
 }

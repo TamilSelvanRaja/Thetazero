@@ -91,6 +91,13 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                   ],
                 ),
                 UiHelper.verticalSpaceMedium,
+                UiHelper().customButton(
+                  str.submit,
+                  () {},
+                  bgclr: clr.disabledColor,
+                  textclr: clr.white,
+                  btnWidth: Screen.width(context),
+                ),
                 // DefaultButton(
                 //         text: "Continue",
                 //         press: () async {
