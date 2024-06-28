@@ -12,6 +12,7 @@ class LoginScreenView extends StatefulWidget {
 }
 
 class _LoginScreenViewState extends State<LoginScreenView> {
+  bool remember = false;
   @override
   void initState() {
     super.initState();
@@ -47,6 +48,10 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                   },
                 ),
                 UiHelper.verticalSpaceSmall,
+                Row(
+                  children: [const Spacer(), UiHelper.textStyle(str.signinotp, 15, color: clr.primaryColor, isBold: true)],
+                ),
+                UiHelper.verticalSpaceSmall,
                 CustomInput(
                   lableText: str.password,
                   hintText: str.enterpassword,
@@ -69,15 +74,20 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                 //     }
                 //   },
                 // ),
-                UiHelper.verticalSpaceSmall,
                 Row(
                   children: [
+                    Checkbox(
+                      value: remember,
+                      activeColor: clr.primaryColor,
+                      onChanged: (value) {
+                        setState(() {
+                          remember = value!;
+                        });
+                      },
+                    ),
+                    Text(str.rememberme),
                     const Spacer(),
-                    GestureDetector(
-                        onTap: () {
-                          //   Get.to(() => const VerifyNumberView(title: "Forgotpassword"));
-                        },
-                        child: UiHelper.textStyle("Forgot Password", 12, isUnderline: true))
+                    UiHelper.textStyle(str.forgetpass, 15, color: clr.primaryColor, isBold: true)
                   ],
                 ),
                 UiHelper.verticalSpaceMedium,

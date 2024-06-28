@@ -29,7 +29,7 @@ class _CustomInputState extends State<CustomInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        UiHelper.textStyle(widget.lableText, 16, isBold: true, color: clr.secondaryColor),
+        UiHelper.textStyle(widget.lableText, 17, isBold: true, color: clr.secondaryColor),
         UiHelper.verticalSpaceSmall,
         FormBuilderTextField(
           style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: clr.black),
