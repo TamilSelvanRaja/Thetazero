@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:promilo/constants/colors.dart' as clr;
 import 'package:promilo/constants/strings.dart' as str;
 import 'package:promilo/features/login/widgets/dot_text_widget.dart';
@@ -7,6 +8,7 @@ import 'package:promilo/features/login/widgets/other_signnin.dart';
 import 'package:promilo/layouts/custom_input.dart';
 import 'package:promilo/layouts/screen.dart';
 import 'package:promilo/layouts/ui_helper.dart';
+import 'package:promilo/services/routes_services.dart';
 
 class LoginScreenView extends StatefulWidget {
   const LoginScreenView({super.key});
@@ -119,7 +121,9 @@ class _LoginScreenViewState extends State<LoginScreenView> {
         UiHelper.verticalSpaceMedium,
         UiHelper().customButton(
           str.submit,
-          () {},
+          () {
+            Get.toNamed(RoutePath.landing);
+          },
           bgclr: clr.disabledColor,
           textclr: clr.white,
           btnWidth: Screen.width(context),

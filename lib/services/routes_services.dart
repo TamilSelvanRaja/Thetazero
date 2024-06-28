@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:promilo/features/login/login_screen.dart';
+import 'package:promilo/features/home/landing_screen.dart';
 
 class RoutePath {
   static dynamic signin = '/';
+  static dynamic landing = '/landing';
 }
 
 abstract class AppPages {
@@ -11,10 +14,12 @@ abstract class AppPages {
       name: RoutePath.signin,
       page: () => const LoginScreenView(),
     ),
-    //  GetPage(name: RoutePath.signin, page: () => const SignInScreen(), transition: Transition.circularReveal, transitionDuration: const Duration(seconds: 1), curve: Curves.easeInOut, bindings: [
-    //     BindingsBuilder(() {
-    //       Get.put(UserController(), permanent: true);
-    //     }),
-    //   ]),
+    GetPage(
+      name: RoutePath.landing,
+      page: () => const LandingView(),
+      transition: Transition.circularReveal,
+      transitionDuration: const Duration(seconds: 1),
+      curve: Curves.easeInOut,
+    ),
   ];
 }
