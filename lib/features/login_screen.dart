@@ -98,36 +98,13 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                   textclr: clr.white,
                   btnWidth: Screen.width(context),
                 ),
-                // DefaultButton(
-                //         text: "Continue",
-                //         press: () async {
-                //           if (mobilecontroller.text.isEmpty) {
-                //             getSnackBar("Mobile Number is Required", "W");
-                //           } else if (passcontroller.text.isEmpty) {
-                //             getSnackBar("Password is Required", "W");
-                //           } else {
-                //             usercontroller.isLoading.value = true;
-                //             final res = await usercontroller.login(mobilecontroller.text, passcontroller.text);
-                //             usercontroller.isLoading.value = false;
-                //             if (res["msg"]) {
-                //               onSuccess(res['user']);
-                //             } else {
-                //               getSnackBar("Phone number or Password is wrong", "E");
-                //             }
-                //           }
-                //         },
-                //       ),
                 UiHelper.verticalSpaceMedium,
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    UiHelper.textStyle("Don’t have an account? ", 14),
-                    GestureDetector(
-                      onTap: () {
-                        //   Get.to(() => const VerifyNumberView(title: "Signup"));
-                      },
-                      child: UiHelper.textStyle("Sign up", 14, color: clr.primaryColor),
-                    ),
+                    UiHelper.textStyle(str.terms1, 14),
+                    UiHelper.textStyle(str.terms2, 14, color: clr.primaryColor),
                   ],
                 )
               ],
