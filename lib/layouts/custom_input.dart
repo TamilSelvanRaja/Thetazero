@@ -13,7 +13,13 @@ class CustomInput extends StatefulWidget {
   final String fieldType;
   final dynamic validating;
 
-  const CustomInput({super.key, required this.hintText, required this.lableText, required this.fieldname, required this.validating, required this.fieldType});
+  const CustomInput(
+      {super.key,
+      required this.hintText,
+      required this.lableText,
+      required this.fieldname,
+      required this.validating,
+      required this.fieldType});
   @override
   State<CustomInput> createState() => _CustomInputState();
 }
@@ -29,10 +35,12 @@ class _CustomInputState extends State<CustomInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        UiHelper.textStyle(widget.lableText, 17, isBold: true, color: clr.secondaryColor),
+        UiHelper.customText(widget.lableText, 17,
+            isBold: true, color: clr.secondaryColor),
         UiHelper.verticalSpaceSmall,
         FormBuilderTextField(
-          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: clr.black),
+          style: const TextStyle(
+              fontSize: 13, fontWeight: FontWeight.w500, color: clr.black),
           name: widget.fieldname,
           autocorrect: false,
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -47,7 +55,8 @@ class _CustomInputState extends State<CustomInput> {
             enabledBorder: UiHelper.getInputBorder(2, borderColor: clr.grey01),
             focusedBorder: UiHelper.getInputBorder(2, borderColor: clr.grey01),
             errorBorder: UiHelper.getInputBorder(2, borderColor: clr.red),
-            focusedErrorBorder: UiHelper.getInputBorder(2, borderColor: clr.red),
+            focusedErrorBorder:
+                UiHelper.getInputBorder(2, borderColor: clr.red),
           ),
           keyboardType: TextInputType.text,
           validator: widget.validating,

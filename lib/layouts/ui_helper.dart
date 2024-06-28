@@ -14,14 +14,20 @@ class UiHelper {
   static const Widget horizontalSpaceSmall = SizedBox(width: 10.0);
   static const Widget horizontalSpaceMedium = SizedBox(width: 20.0);
 
-  static Widget textStyle(String title, double fntsize, {Color color = Colors.black, bool isBold = false, bool isCenterAlignment = false, bool isUnderline = false, bool isellipsis = false}) {
+  static Widget customText(String title, double fntsize,
+      {Color color = Colors.black,
+      bool isBold = false,
+      bool isCenterAlignment = false,
+      bool isUnderline = false,
+      bool isellipsis = false}) {
     return Text(
       title,
       overflow: isellipsis ? TextOverflow.ellipsis : null,
       style: TextStyle(
         color: color,
         fontSize: fntsize,
-        decoration: isUnderline ? TextDecoration.underline : TextDecoration.none,
+        decoration:
+            isUnderline ? TextDecoration.underline : TextDecoration.none,
         fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
       ),
       textAlign: isCenterAlignment ? TextAlign.center : TextAlign.left,
@@ -29,8 +35,12 @@ class UiHelper {
   }
 
   ///******** Container BOX Decoration **********///
-  static BoxDecoration roundedBorderWithColor(double radius, Color backgroundColor,
-      {Color borderColor = clr.transparentColor, double borderWidth = 1, bool isShadow = false, Color shadowcolor = Colors.black45}) {
+  static BoxDecoration roundedBorderWithColor(
+      double radius, Color backgroundColor,
+      {Color borderColor = clr.transparentColor,
+      double borderWidth = 1,
+      bool isShadow = false,
+      Color shadowcolor = Colors.black45}) {
     return BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(radius)),
         border: Border.all(width: borderWidth, color: borderColor),
@@ -53,7 +63,8 @@ class UiHelper {
   }
 
   // Input Box Style Provider
-  static OutlineInputBorder getInputBorder(double width, {double radius = 10, Color borderColor = Colors.transparent}) {
+  static OutlineInputBorder getInputBorder(double width,
+      {double radius = 10, Color borderColor = Colors.transparent}) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(radius)),
       borderSide: BorderSide(color: borderColor, width: width),
@@ -62,23 +73,30 @@ class UiHelper {
   }
 
 // Form builder Input Fields Decoration
-  static InputDecoration inputDecorateWidget(String labelText, {final suffixWidget}) {
+  static InputDecoration inputDecorateWidget(String labelText,
+      {final suffixWidget}) {
     return InputDecoration(
       labelText: labelText,
       suffixIcon: suffixWidget,
-      labelStyle: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: Colors.black38),
+      labelStyle: const TextStyle(
+          fontSize: 14.0, fontWeight: FontWeight.w600, color: Colors.black38),
       enabledBorder: getInputBorder(1, borderColor: Colors.black38),
       focusedBorder: getInputBorder(1, borderColor: Colors.black38),
       focusedErrorBorder: getInputBorder(1, borderColor: Colors.red),
       errorBorder: getInputBorder(1, borderColor: Colors.red),
       disabledBorder: getInputBorder(1, borderColor: Colors.black38),
       errorStyle: const TextStyle(fontSize: 10),
-      floatingLabelStyle: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500, color: Colors.black87),
+      floatingLabelStyle: const TextStyle(
+          fontSize: 16.0, fontWeight: FontWeight.w500, color: Colors.black87),
       contentPadding: const EdgeInsets.symmetric(horizontal: 42, vertical: 20),
     );
   }
 
-  static BoxDecoration circleWithColorWithShadow(Color backgroundColor, Color backgroundColor2, {Color borderColor = Colors.transparent, double borderWidth = 1, Color shadowcolor = Colors.black26}) {
+  static BoxDecoration circleWithColorWithShadow(
+      Color backgroundColor, Color backgroundColor2,
+      {Color borderColor = Colors.transparent,
+      double borderWidth = 1,
+      Color shadowcolor = Colors.black26}) {
     return BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(width: borderWidth, color: borderColor),
@@ -119,7 +137,10 @@ class UiHelper {
     );
   }
 
-  Widget customButton(String title, Function press, {Color bgclr = clr.primaryColor, Color textclr = clr.white, double btnWidth = 100}) {
+  Widget customButton(String title, Function press,
+      {Color bgclr = clr.primaryColor,
+      Color textclr = clr.white,
+      double btnWidth = 100}) {
     return GestureDetector(
         onTap: () {
           press();
@@ -128,8 +149,9 @@ class UiHelper {
           width: btnWidth,
           alignment: Alignment.center,
           padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-          decoration: roundedBorderWithColor(10, bgclr, borderColor: clr.primaryColor, borderWidth: 2),
-          child: textStyle(title, 16, isBold: true, color: textclr),
+          decoration: roundedBorderWithColor(10, bgclr,
+              borderColor: clr.primaryColor, borderWidth: 2),
+          child: customText(title, 16, isBold: true, color: textclr),
         ));
   }
 }

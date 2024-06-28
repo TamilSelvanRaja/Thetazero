@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:promilo/features/login_screen.dart';
+import 'package:promilo/features/login/login_screen.dart';
 
 class RoutePath {
   static dynamic signin = '/';
