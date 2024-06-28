@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:promilo/constants/colors.dart' as clr;
 import 'package:promilo/constants/strings.dart' as str;
+import 'package:promilo/layouts/custom_input.dart';
 import 'package:promilo/layouts/screen.dart';
 import 'package:promilo/layouts/ui_helper.dart';
 
@@ -26,14 +27,35 @@ class _LoginScreenViewState extends State<LoginScreenView> {
             alignment: Alignment.center,
             height: Screen.height(context),
             width: Screen.width(context),
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            padding: const EdgeInsets.all(16),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                UiHelper.textStyle(str.appname, 28, color: clr.primaryColor, isBold: true),
-                UiHelper.textStyle(str.appname, 13, color: clr.secondaryColor),
+                UiHelper.verticalSpaceSmall,
+                UiHelper.textStyle(str.appname, 23, isBold: true),
                 UiHelper.verticalSpaceMedium,
+                UiHelper.textStyle(str.welcomeText, 20, isBold: true),
+                UiHelper.verticalSpaceMedium,
+                CustomInput(
+                  lableText: str.signinHint,
+                  hintText: str.useridLabel,
+                  fieldname: "userid",
+                  fieldType: "email",
+                  validating: (val) {
+                    return null;
+                  },
+                ),
+                UiHelper.verticalSpaceSmall,
+                CustomInput(
+                  lableText: str.password,
+                  hintText: str.enterpassword,
+                  fieldname: "password",
+                  fieldType: "password",
+                  validating: (val) {
+                    return null;
+                  },
+                ),
                 // CustomPasswordField(
                 //   controller: passcontroller,
                 //   hintText: "Password",

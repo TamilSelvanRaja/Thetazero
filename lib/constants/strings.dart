@@ -1,1 +1,16 @@
 String appname = "Promillo";
+String welcomeText = "Hi, Welcome Back!";
+String signinHint = "Please Sign in to continue";
+String useridLabel = "Enter Email";
+String signinotp = "Sign in With OTP";
+String password = "Password";
+String enterpassword = "Enter Password";
+String rememberme = "Remember Me";
+String forgetpass = "Forget Password";
+String submit = "Submit";
+String bussinessuser = "Business User?";
+String withoutac = "Don't have an account";
+String loginText = "Login Here";
+String signupText = "Sign Up";
+String terms1 = "By Continuing, you agree to\nPromilo's";
+String terms2 = "Terms of Use & Privacy Policy";

@@ -53,7 +53,7 @@ class UiHelper {
   }
 
   // Input Box Style Provider
-  static OutlineInputBorder getInputBorder(double width, {double radius = 28, Color borderColor = Colors.transparent}) {
+  static OutlineInputBorder getInputBorder(double width, {double radius = 10, Color borderColor = Colors.transparent}) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(radius)),
       borderSide: BorderSide(color: borderColor, width: width),
