@@ -12,6 +12,7 @@ class _LandingViewState extends State<LandingView> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(top: true, child: MeetUpScreenView()),
       bottomNavigationBar: BottomNavBarView(),
     );

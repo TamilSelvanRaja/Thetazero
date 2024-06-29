@@ -14,3 +14,5 @@ String loginText = "Login Here";
 String signupText = "Sign Up";
 String terms1 = "By Continuing, you agree to";
 String terms2 = "Terms of Use & Privacy Policy";
+String popularPeople = "Trending Popular People";
+String trendingMeetup = "Top Trending Meetups";

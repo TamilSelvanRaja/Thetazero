@@ -3,9 +3,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:promilo/constants/colors.dart' as clr;
 import 'package:promilo/layouts/ui_helper.dart';
 
-//*******************************************************/
-//********* Input Field Class with Validation********/
-//*******************************************************/
 class CustomInput extends StatefulWidget {
   final String lableText;
   final String hintText;
@@ -25,11 +22,6 @@ class CustomInput extends StatefulWidget {
 }
 
 class _CustomInputState extends State<CustomInput> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(

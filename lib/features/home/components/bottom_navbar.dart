@@ -84,7 +84,7 @@ class NavBarItem extends StatelessWidget {
       children: [
         Image.asset(
           icon,
-          height: icon == meetImage ? 35 : 25,
+          height: icon == meetImage ? 30 : 25,
           color: isSelected ? clr.activeColor : clr.black,
         ),
         UiHelper.customText(label, 14,

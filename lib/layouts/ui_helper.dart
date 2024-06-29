@@ -1,19 +1,18 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:promilo/constants/colors.dart' as clr;
 
 class UiHelper {
-  ///******** Vertically Space Provider **********///
+  ///******** Vertically Space Widgets **********///
   static const Widget verticalSpaceTiny = SizedBox(height: 4.0);
   static const Widget verticalSpaceSmall = SizedBox(height: 10.0);
   static const Widget verticalSpaceMedium = SizedBox(height: 20.0);
 
-  ///******** Horizontal Space provider **********///
+  ///******** Horizontal Space Widgets **********///
   static const Widget horizontalSpaceTiny = SizedBox(width: 5.0);
   static const Widget horizontalSpaceSmall = SizedBox(width: 10.0);
   static const Widget horizontalSpaceMedium = SizedBox(width: 20.0);
 
+  ///******** Text with style Widgets **********///
   static Widget customText(String title, double fntsize,
       {Color color = Colors.black,
       bool isBold = false,
@@ -56,13 +55,32 @@ class UiHelper {
             : []);
   }
 
-  static Widget loaderUi() {
-    return const Center(
-      child: CircularProgressIndicator(),
+  ///******** Container BOX Decoration with baackground image **********///
+  static BoxDecoration roundedBorderWithBackround(
+      double radius, String imageurl) {
+    return BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(radius)),
+      image: DecorationImage(
+        image: AssetImage(imageurl),
+        fit: BoxFit.cover,
+      ),
     );
   }
 
-  // Input Box Style Provider
+  ///******** Container BOX Decoration **********///
+  static BoxDecoration customEdgesDecoration(Color backgroundColor,
+      double ltradius, double lbradius, double rtradius, double rbradius) {
+    return BoxDecoration(
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(ltradius),
+          bottomLeft: Radius.circular(lbradius),
+          topRight: Radius.circular(rtradius),
+          bottomRight: Radius.circular(rbradius)),
+      color: backgroundColor,
+    );
+  }
+
+  ///******** Custom Input Field Style Widgets **********///
   static OutlineInputBorder getInputBorder(double width,
       {double radius = 10, Color borderColor = Colors.transparent}) {
     return OutlineInputBorder(
@@ -72,71 +90,19 @@ class UiHelper {
     );
   }
 
-// Form builder Input Fields Decoration
-  static InputDecoration inputDecorateWidget(String labelText,
-      {final suffixWidget}) {
-    return InputDecoration(
-      labelText: labelText,
-      suffixIcon: suffixWidget,
-      labelStyle: const TextStyle(
-          fontSize: 14.0, fontWeight: FontWeight.w600, color: Colors.black38),
-      enabledBorder: getInputBorder(1, borderColor: Colors.black38),
-      focusedBorder: getInputBorder(1, borderColor: Colors.black38),
-      focusedErrorBorder: getInputBorder(1, borderColor: Colors.red),
-      errorBorder: getInputBorder(1, borderColor: Colors.red),
-      disabledBorder: getInputBorder(1, borderColor: Colors.black38),
-      errorStyle: const TextStyle(fontSize: 10),
-      floatingLabelStyle: const TextStyle(
-          fontSize: 16.0, fontWeight: FontWeight.w500, color: Colors.black87),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 42, vertical: 20),
-    );
-  }
-
-  static BoxDecoration circleWithColorWithShadow(
-      Color backgroundColor, Color backgroundColor2,
+  ///******** Circle Container Decoration Widgets **********///
+  static BoxDecoration circledecorationWithColor(Color backgroundColor,
       {Color borderColor = Colors.transparent,
       double borderWidth = 1,
       Color shadowcolor = Colors.black26}) {
     return BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(width: borderWidth, color: borderColor),
-        gradient: LinearGradient(
-            colors: [
-              backgroundColor,
-              backgroundColor2,
-            ],
-            begin: const FractionalOffset(0.0, 0.0),
-            end: const FractionalOffset(1.0, 0.0),
-            stops: const [0.0, 1.0],
-            tileMode: TileMode.clamp),
-        boxShadow: [
-          BoxShadow(
-            color: shadowcolor,
-            offset: const Offset(2, 2),
-            blurRadius: 3.0,
-          )
-        ]);
-  }
-
-  Widget showprofile(String profileUrl, double hwsize) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(100.0),
-      child: profileUrl.startsWith("https") || profileUrl.startsWith("http")
-          ? Image.network(
-              profileUrl,
-              height: hwsize,
-              width: hwsize,
-              fit: BoxFit.cover,
-            )
-          : Image.file(
-              File(profileUrl),
-              height: hwsize,
-              width: hwsize,
-              fit: BoxFit.cover,
-            ),
+      shape: BoxShape.circle,
+      border: Border.all(width: borderWidth, color: borderColor),
+      color: backgroundColor,
     );
   }
 
+  ///******** Custom Button with style Widgets **********///
   Widget customButton(String title, Function press,
       {Color bgclr = clr.primaryColor,
       Color textclr = clr.white,
@@ -153,5 +119,12 @@ class UiHelper {
               borderColor: clr.primaryColor, borderWidth: 2),
           child: customText(title, 16, isBold: true, color: textclr),
         ));
+  }
+
+  ///******** Loading Widgets **********///
+  static Widget loaderWidget() {
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
   }
 }
