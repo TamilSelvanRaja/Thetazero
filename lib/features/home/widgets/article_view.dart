@@ -57,7 +57,7 @@ class ArticlesSlider extends StatelessWidget {
                       ),
                     ),
                   ),
-                  UiHelper.dotStyleWidget(3, index)
+                  UiHelper.dotStyleWidget(3, index, clr.black)
                 ],
               );
             },

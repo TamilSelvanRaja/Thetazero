@@ -99,7 +99,7 @@ class UiHelper {
   }
 
 // ************* Dot Design View Widget ****************** \\
-  static Widget dotStyleWidget(int totalCount, int currentIndex) {
+  static Widget dotStyleWidget(int totalCount, int currentIndex, Color color) {
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(totalCount, (index) {
@@ -108,7 +108,7 @@ class UiHelper {
             child: Icon(
               Icons.fiber_manual_record,
               size: 15,
-              color: currentIndex == index ? clr.black : clr.grey01,
+              color: currentIndex == index ? color : color.withOpacity(0.5),
             ),
           );
         }));
