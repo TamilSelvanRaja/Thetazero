@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:promilo/constants/colors.dart' as clr;
 import 'package:promilo/layouts/ui_helper.dart';
+import 'package:flutter_share/flutter_share.dart';
 
 class Utils {
   ///******** Email Validation Regular Expression **********///
@@ -15,7 +16,8 @@ class Utils {
 
   ///******** Password Validation Regular Expression **********///
   bool isPasswordValid(value) {
-    return RegExp(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#%^&+=]).{8,}$").hasMatch(value);
+    return RegExp(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#%^&+=]).{8,}$")
+        .hasMatch(value);
   }
 
   ///******** String convert to SHA256 KEY **********///
@@ -36,7 +38,16 @@ class Utils {
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       colorText: clr.white,
       messageText: UiHelper.customText(message, 18, color: clr.white),
-      titleText: UiHelper.customText(isSuccess ? "Success" : "Failure", 18, color: clr.white, isBold: true, isCenterAlignment: true),
+      titleText: UiHelper.customText(isSuccess ? "Success" : "Failure", 18,
+          color: clr.white, isBold: true, isCenterAlignment: true),
+    );
+  }
+
+  Future<void> share() async {
+    await FlutterShare.share(
+      title: 'Share Option',
+      text: 'Social Media App',
+      linkUrl: 'https://www.google.com',
     );
   }
 }
