@@ -37,7 +37,7 @@ class ArticlesSlider extends StatelessWidget {
                       height: 150,
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(20),
                         gradient: LinearGradient(
                             colors: [
                               clr.black.withOpacity(0.5),

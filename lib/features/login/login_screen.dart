@@ -23,10 +23,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
   String password = "";
 
   bool remember = false;
-  @override
-  void initState() {
-    super.initState();
-  }
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -134,27 +131,35 @@ class _LoginScreenViewState extends State<LoginScreenView> {
           ],
         ),
         UiHelper.verticalSpaceMedium,
-        UiHelper().customButton(
-          str.submit,
-          () async {
-            if (emailid.isNotEmpty && password.isNotEmpty) {
-              Map<String, dynamic> postparams = {};
-              postparams['username'] = emailid;
-              postparams['password'] = Utils().sha256Hash(password);
-              postparams['grant_type'] = "password";
-              bool isVerfied = await ApiService().login(postparams);
-              if (isVerfied) {
-                Utils().showSnackBar("Login successful!", true);
-                Get.toNamed(RoutePath.landing);
-              } else {
-                Utils().showSnackBar("Email ID or Password is incorrect.", false);
-              }
-            }
-          },
-          bgclr: emailid.isNotEmpty && password.isNotEmpty ? clr.primaryColor : clr.disabledColor,
-          textclr: clr.white,
-          btnWidth: Screen.width(context),
-        )
+        isLoading
+            ? UiHelper.loaderWidget()
+            : UiHelper().customButton(
+                str.submit,
+                () async {
+                  if (emailid.isNotEmpty && password.isNotEmpty) {
+                    Map<String, dynamic> postparams = {};
+                    postparams['username'] = emailid;
+                    postparams['password'] = Utils().sha256Hash(password);
+                    postparams['grant_type'] = "password";
+                    setState(() {
+                      isLoading = true;
+                    });
+                    bool isVerfied = await ApiService().login(postparams);
+                    setState(() {
+                      isLoading = false;
+                    });
+                    if (isVerfied) {
+                      Utils().showSnackBar("Login successful!", true);
+                      Get.toNamed(RoutePath.landing);
+                    } else {
+                      Utils().showSnackBar("Email ID or Password is incorrect.", false);
+                    }
+                  }
+                },
+                bgclr: emailid.isNotEmpty && password.isNotEmpty ? clr.primaryColor : clr.disabledColor,
+                textclr: clr.white,
+                btnWidth: Screen.width(context),
+              )
       ],
     );
   }
