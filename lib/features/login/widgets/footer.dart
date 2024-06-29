@@ -12,21 +12,11 @@ class FooterContent extends StatelessWidget {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          UiHelper.customText(str.bussinessuser, 15,
-              color: clr.grey01, isBold: true),
-          UiHelper.customText(str.withoutac, 15,
-              color: clr.grey01, isBold: true)
-        ],
+        children: [UiHelper.customText(str.bussinessuser, 15, color: clr.grey01, isBold: true), UiHelper.customText(str.withoutac, 15, color: clr.grey01, isBold: true)],
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          UiHelper.customText(str.loginText, 15,
-              color: clr.primaryColor, isBold: true),
-          UiHelper.customText(str.signupText, 15,
-              color: clr.primaryColor, isBold: true)
-        ],
+        children: [UiHelper.customText(str.loginText, 15, color: clr.primaryColor, isBold: true), UiHelper.customText(str.signupText, 15, color: clr.primaryColor, isBold: true)],
       ),
       UiHelper.verticalSpaceSmall,
       UiHelper.customText(str.terms1, 14, color: clr.grey01),
@@ -42,8 +32,7 @@ class FooterContent extends StatelessWidget {
         height: 5,
         margin: const EdgeInsets.only(top: 5),
         width: Screen.width(context) / 2,
-        decoration: UiHelper.roundedBorderWithColor(
-            30, clr.primaryColor.withOpacity(0.4)),
+        decoration: UiHelper.roundedBorderWithColor(30, clr.primaryColor.withOpacity(0.4)),
       )
     ]);
   }

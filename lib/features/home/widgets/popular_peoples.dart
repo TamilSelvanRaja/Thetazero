@@ -20,8 +20,7 @@ class PopularPeoples extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          UiHelper.customText(str.popularPeople, 18,
-              isBold: true, color: clr.textcolor),
+          UiHelper.customText(str.popularPeople, 18, isBold: true, color: clr.textcolor),
           UiHelper.verticalSpaceSmall,
           SizedBox(
               height: Screen.width(context) / 2.3,
@@ -30,62 +29,50 @@ class PopularPeoples extends StatelessWidget {
                 itemCount: 3,
                 itemBuilder: (context, index) {
                   return Container(
-                    decoration: UiHelper.roundedBorderWithColor(10, clr.white,
-                        borderColor: clr.grey01),
+                    decoration: UiHelper.roundedBorderWithColor(10, clr.white, borderColor: clr.grey01),
                     height: Screen.width(context) / 2.3,
                     width: Screen.width(context) / 1.5,
                     padding: const EdgeInsets.all(10),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              Container(
-                                decoration: UiHelper.circledecorationWithColor(
-                                    clr.white,
-                                    borderColor: clr.textcolor,
-                                    borderWidth: 2),
-                                height: 40,
-                                width: 40,
-                                padding: const EdgeInsets.all(8),
-                                child: Image.asset(
-                                  heading[index]['icon']!,
-                                  fit: BoxFit.cover,
-                                  color: clr.textcolor,
-                                ),
-                              ),
-                              UiHelper.horizontalSpaceSmall,
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  UiHelper.customText(
-                                      heading[index]['title']!, 14,
-                                      color: clr.textcolor, isBold: true),
-                                  UiHelper.customText(
-                                      heading[index]['hint']!, 13,
-                                      color: clr.grey02),
-                                ],
-                              )
-                            ],
-                          ),
-                          const Spacer(),
-                          Container(height: 1, color: clr.grey01),
-                          const Spacer(),
-                          rowImagesWidget(),
-                          UiHelper.verticalSpaceSmall,
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                              width: Screen.width(context) / 3,
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
-                              decoration: UiHelper.roundedBorderWithColor(
-                                  10, clr.textcolor),
-                              child: UiHelper.customText("See more", 14,
-                                  isBold: true, color: clr.white),
+                          Container(
+                            decoration: UiHelper.circledecorationWithColor(clr.white, borderColor: clr.textcolor, borderWidth: 2),
+                            height: 40,
+                            width: 40,
+                            padding: const EdgeInsets.all(8),
+                            child: Image.asset(
+                              heading[index]['icon']!,
+                              fit: BoxFit.cover,
+                              color: clr.textcolor,
                             ),
+                          ),
+                          UiHelper.horizontalSpaceSmall,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              UiHelper.customText(heading[index]['title']!, 14, color: clr.textcolor, isBold: true),
+                              UiHelper.customText(heading[index]['hint']!, 13, color: clr.grey02),
+                            ],
                           )
-                        ]),
+                        ],
+                      ),
+                      const Spacer(),
+                      Container(height: 1, color: clr.grey01),
+                      const Spacer(),
+                      rowImagesWidget(),
+                      UiHelper.verticalSpaceSmall,
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          width: Screen.width(context) / 3,
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
+                          decoration: UiHelper.roundedBorderWithColor(10, clr.textcolor),
+                          child: UiHelper.customText("See more", 14, isBold: true, color: clr.white),
+                        ),
+                      )
+                    ]),
                   );
                 },
                 separatorBuilder: (context, index) {

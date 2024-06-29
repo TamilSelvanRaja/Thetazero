@@ -16,9 +16,7 @@ class DotwithText extends StatelessWidget {
             size: const Size(double.infinity, 1),
           ),
         ),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: UiHelper.customText("Or", 14)),
+        Padding(padding: const EdgeInsets.symmetric(horizontal: 16), child: UiHelper.customText("Or", 14)),
         Expanded(
           child: CustomPaint(
             painter: DottedLinePainter(color: clr.grey02),

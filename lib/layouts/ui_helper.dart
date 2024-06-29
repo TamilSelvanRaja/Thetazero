@@ -29,8 +29,7 @@ class UiHelper {
   }
 
   ///******** Container BOX Decoration **********///
-  static BoxDecoration roundedBorderWithColor(double radius, Color backgroundColor,
-      {Color borderColor = clr.transparentColor, double borderWidth = 1, bool isShadow = false, Color shadowcolor = Colors.black45}) {
+  static BoxDecoration roundedBorderWithColor(double radius, Color backgroundColor, {Color borderColor = clr.transparentColor, double borderWidth = 1, bool isShadow = false, Color shadowcolor = Colors.black45}) {
     return BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(radius)),
         border: Border.all(width: borderWidth, color: borderColor),

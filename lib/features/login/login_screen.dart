@@ -137,20 +137,19 @@ class _LoginScreenViewState extends State<LoginScreenView> {
         UiHelper().customButton(
           str.submit,
           () async {
-            Get.toNamed(RoutePath.landing);
-            // if (emailid.isNotEmpty && password.isNotEmpty) {
-            //   Map<String, dynamic> postparams = {};
-            //   postparams['username'] = emailid;
-            //   postparams['password'] = Utils().sha256Hash(password);
-            //   postparams['grant_type'] = "password";
-            //   bool isVerfied = await ApiService().login(postparams);
-            //   if (isVerfied) {
-            //     Utils().showSnackBar("Login successful!", true);
-            //     Get.toNamed(RoutePath.landing);
-            //   } else {
-            //     Utils().showSnackBar("Email ID or Password is incorrect.", false);
-            //   }
-            // }
+            if (emailid.isNotEmpty && password.isNotEmpty) {
+              Map<String, dynamic> postparams = {};
+              postparams['username'] = emailid;
+              postparams['password'] = Utils().sha256Hash(password);
+              postparams['grant_type'] = "password";
+              bool isVerfied = await ApiService().login(postparams);
+              if (isVerfied) {
+                Utils().showSnackBar("Login successful!", true);
+                Get.toNamed(RoutePath.landing);
+              } else {
+                Utils().showSnackBar("Email ID or Password is incorrect.", false);
+              }
+            }
           },
           bgclr: emailid.isNotEmpty && password.isNotEmpty ? clr.primaryColor : clr.disabledColor,
           textclr: clr.white,

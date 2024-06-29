@@ -32,8 +32,7 @@ class ArticlesSlider extends StatelessWidget {
                 children: [
                   Container(
                     width: double.infinity,
-                    decoration: UiHelper.roundedBorderWithBackround(
-                        20, featuredArticles[index]["image"]!),
+                    decoration: UiHelper.roundedBorderWithBackround(20, featuredArticles[index]["image"]!),
                     child: Container(
                       height: 150,
                       padding: const EdgeInsets.all(16),
@@ -53,9 +52,7 @@ class ArticlesSlider extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          UiHelper.customText(
-                              featuredArticles[index]["title"]!, 20,
-                              isellipsis: true, isBold: true, color: clr.white),
+                          UiHelper.customText(featuredArticles[index]["title"]!, 20, isellipsis: true, isBold: true, color: clr.white),
                         ],
                       ),
                     ),

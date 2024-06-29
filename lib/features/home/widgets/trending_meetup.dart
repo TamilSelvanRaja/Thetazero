@@ -22,8 +22,7 @@ class TrendingMeetups extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            UiHelper.customText(str.trendingMeetup, 18,
-                isBold: true, color: clr.textcolor),
+            UiHelper.customText(str.trendingMeetup, 18, isBold: true, color: clr.textcolor),
             UiHelper.verticalSpaceSmall,
             SizedBox(
                 height: Screen.width(context) / 2,
@@ -32,8 +31,7 @@ class TrendingMeetups extends StatelessWidget {
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     return Container(
-                      decoration: UiHelper.roundedBorderWithBackround(
-                          15, imageList[index]),
+                      decoration: UiHelper.roundedBorderWithBackround(15, imageList[index]),
                       height: Screen.width(context) / 2,
                       width: Screen.width(context) / 2.3,
                       child: Column(
@@ -43,11 +41,9 @@ class TrendingMeetups extends StatelessWidget {
                           Container(
                             height: 60,
                             width: 60,
-                            decoration: UiHelper.customEdgesDecoration(
-                                clr.white, 15, 0, 0, 15),
+                            decoration: UiHelper.customEdgesDecoration(clr.white, 15, 0, 0, 15),
                             alignment: Alignment.center,
-                            child: UiHelper.customText("0${index + 1}", 35,
-                                isBold: true),
+                            child: UiHelper.customText("0${index + 1}", 35, isBold: true),
                           ),
                         ],
                       ),

@@ -10,19 +10,11 @@ class PhotoFrame extends StatelessWidget {
   PhotoFrame({super.key});
 
   final List imageList = [image6, image7, image1, image3, image2];
-  final List iconData = [
-    Icons.file_download_outlined,
-    Icons.bookmark_border_outlined,
-    Icons.favorite_border_outlined,
-    Icons.aspect_ratio_outlined,
-    Icons.grade_outlined,
-    Icons.share_outlined,
-  ];
+  final List iconData = [Icons.file_download_outlined, Icons.bookmark_border_outlined, Icons.favorite_border_outlined, Icons.aspect_ratio_outlined, Icons.grade_outlined, Icons.share_outlined];
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-          UiHelper.roundedBorderWithColor(10, clr.grey01.withOpacity(0.3)),
+      decoration: UiHelper.roundedBorderWithColor(10, clr.grey01.withOpacity(0.3)),
       child: Column(
         children: [
           CarouselSlider.builder(
@@ -36,12 +28,10 @@ class PhotoFrame extends StatelessWidget {
             itemBuilder: (context, index, realIndex) {
               return Container(
                 width: double.infinity,
-                decoration:
-                    UiHelper.roundedBorderWithBackround(10, imageList[index]!),
+                decoration: UiHelper.roundedBorderWithBackround(10, imageList[index]!),
                 child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: UiHelper.dotStyleWidget(
-                      imageList.length, index, clr.white),
+                  child: UiHelper.dotStyleWidget(imageList.length, index, clr.white),
                 ),
               );
             },

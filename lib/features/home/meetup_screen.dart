@@ -39,26 +39,8 @@ class _MeetUpScreenViewState extends State<MeetUpScreenView> {
                         return null;
                       },
                       fieldType: "text",
-                      prefixwidget: SizedBox(
-                          height: 5,
-                          width: 5,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.asset(
-                              search,
-                              color: clr.secondaryColor,
-                            ),
-                          )),
-                      suffixWidget: SizedBox(
-                          height: 5,
-                          width: 5,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.asset(
-                              mic,
-                              color: clr.secondaryColor,
-                            ),
-                          )),
+                      prefixwidget: SizedBox(height: 5, width: 5, child: Padding(padding: const EdgeInsets.all(8.0), child: Image.asset(search, color: clr.secondaryColor))),
+                      suffixWidget: SizedBox(height: 5, width: 5, child: Padding(padding: const EdgeInsets.all(8.0), child: Image.asset(mic, color: clr.secondaryColor))),
                     ),
                   ),
                   ArticlesSlider(),
