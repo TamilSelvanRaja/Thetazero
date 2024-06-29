@@ -11,10 +11,10 @@ class LandingView extends StatefulWidget {
 class _LandingViewState extends State<LandingView> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(top: true, child: MeetUpScreenView()),
-      bottomNavigationBar: BottomNavBarView(),
+      body: GestureDetector(onTap: () => FocusScope.of(context).unfocus(), child: const SafeArea(top: true, child: MeetUpScreenView())),
+      bottomNavigationBar: const BottomNavBarView(),
     );
   }
 }

@@ -13,6 +13,8 @@ String exploreImage = "assets/images/folder.png";
 String userImage = "assets/images/user.png";
 
 //Meetups Images
+String search = "assets/images/search.png";
+String mic = "assets/images/mic.png";
 String image0 = "assets/images/image0.jpg";
 String image1 = "assets/images/image1.jpg";
 String image2 = "assets/images/image2.jpg";

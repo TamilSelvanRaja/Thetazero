@@ -9,14 +9,21 @@ class CustomInput extends StatefulWidget {
   final String fieldname;
   final String fieldType;
   final dynamic validating;
+  final Function onEnter;
+  final Widget? prefixwidget;
+  final Widget? suffixWidget;
 
-  const CustomInput(
-      {super.key,
-      required this.hintText,
-      required this.lableText,
-      required this.fieldname,
-      required this.validating,
-      required this.fieldType});
+  const CustomInput({
+    super.key,
+    required this.hintText,
+    required this.lableText,
+    required this.fieldname,
+    required this.validating,
+    required this.fieldType,
+    required this.onEnter,
+    this.prefixwidget,
+    this.suffixWidget,
+  });
   @override
   State<CustomInput> createState() => _CustomInputState();
 }
@@ -27,17 +34,19 @@ class _CustomInputState extends State<CustomInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        UiHelper.customText(widget.lableText, 17,
-            isBold: true, color: clr.secondaryColor),
-        UiHelper.verticalSpaceSmall,
+        if (widget.lableText.isNotEmpty) UiHelper.customText(widget.lableText, 17, isBold: true, color: clr.secondaryColor),
+        if (widget.lableText.isNotEmpty) UiHelper.verticalSpaceSmall,
         FormBuilderTextField(
-          style: const TextStyle(
-              fontSize: 13, fontWeight: FontWeight.w500, color: clr.black),
+          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: clr.black),
           name: widget.fieldname,
           autocorrect: false,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          onChanged: (value) {},
+          onChanged: (value) {
+            widget.onEnter(value);
+          },
           decoration: InputDecoration(
+            prefixIcon: widget.prefixwidget,
+            suffixIcon: widget.suffixWidget,
             hintText: widget.hintText,
             hintStyle: const TextStyle(fontSize: 14, color: clr.grey02),
             contentPadding: const EdgeInsets.symmetric(
@@ -47,8 +56,7 @@ class _CustomInputState extends State<CustomInput> {
             enabledBorder: UiHelper.getInputBorder(2, borderColor: clr.grey01),
             focusedBorder: UiHelper.getInputBorder(2, borderColor: clr.grey01),
             errorBorder: UiHelper.getInputBorder(2, borderColor: clr.red),
-            focusedErrorBorder:
-                UiHelper.getInputBorder(2, borderColor: clr.red),
+            focusedErrorBorder: UiHelper.getInputBorder(2, borderColor: clr.red),
           ),
           keyboardType: TextInputType.text,
           validator: widget.validating,

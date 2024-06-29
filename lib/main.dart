@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:promilo/services/routes_services.dart';
 
 void main() {
-//  setupLocator();
+  ///******** Lock the Screen orientation **********///
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

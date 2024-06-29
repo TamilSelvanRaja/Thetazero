@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:promilo/constants/colors.dart' as clr;
 
 class UiHelper {
@@ -13,20 +14,14 @@ class UiHelper {
   static const Widget horizontalSpaceMedium = SizedBox(width: 20.0);
 
   ///******** Text with style Widgets **********///
-  static Widget customText(String title, double fntsize,
-      {Color color = Colors.black,
-      bool isBold = false,
-      bool isCenterAlignment = false,
-      bool isUnderline = false,
-      bool isellipsis = false}) {
+  static Widget customText(String title, double fntsize, {Color color = Colors.black, bool isBold = false, bool isCenterAlignment = false, bool isUnderline = false, bool isellipsis = false}) {
     return Text(
       title,
       overflow: isellipsis ? TextOverflow.ellipsis : null,
       style: TextStyle(
         color: color,
         fontSize: fntsize,
-        decoration:
-            isUnderline ? TextDecoration.underline : TextDecoration.none,
+        decoration: isUnderline ? TextDecoration.underline : TextDecoration.none,
         fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
       ),
       textAlign: isCenterAlignment ? TextAlign.center : TextAlign.left,
@@ -34,12 +29,8 @@ class UiHelper {
   }
 
   ///******** Container BOX Decoration **********///
-  static BoxDecoration roundedBorderWithColor(
-      double radius, Color backgroundColor,
-      {Color borderColor = clr.transparentColor,
-      double borderWidth = 1,
-      bool isShadow = false,
-      Color shadowcolor = Colors.black45}) {
+  static BoxDecoration roundedBorderWithColor(double radius, Color backgroundColor,
+      {Color borderColor = clr.transparentColor, double borderWidth = 1, bool isShadow = false, Color shadowcolor = Colors.black45}) {
     return BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(radius)),
         border: Border.all(width: borderWidth, color: borderColor),
@@ -56,8 +47,7 @@ class UiHelper {
   }
 
   ///******** Container BOX Decoration with baackground image **********///
-  static BoxDecoration roundedBorderWithBackround(
-      double radius, String imageurl) {
+  static BoxDecoration roundedBorderWithBackround(double radius, String imageurl) {
     return BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(radius)),
       image: DecorationImage(
@@ -68,21 +58,15 @@ class UiHelper {
   }
 
   ///******** Container BOX Decoration **********///
-  static BoxDecoration customEdgesDecoration(Color backgroundColor,
-      double ltradius, double lbradius, double rtradius, double rbradius) {
+  static BoxDecoration customEdgesDecoration(Color backgroundColor, double ltradius, double lbradius, double rtradius, double rbradius) {
     return BoxDecoration(
-      borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(ltradius),
-          bottomLeft: Radius.circular(lbradius),
-          topRight: Radius.circular(rtradius),
-          bottomRight: Radius.circular(rbradius)),
+      borderRadius: BorderRadius.only(topLeft: Radius.circular(ltradius), bottomLeft: Radius.circular(lbradius), topRight: Radius.circular(rtradius), bottomRight: Radius.circular(rbradius)),
       color: backgroundColor,
     );
   }
 
   ///******** Custom Input Field Style Widgets **********///
-  static OutlineInputBorder getInputBorder(double width,
-      {double radius = 10, Color borderColor = Colors.transparent}) {
+  static OutlineInputBorder getInputBorder(double width, {double radius = 10, Color borderColor = Colors.transparent}) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(radius)),
       borderSide: BorderSide(color: borderColor, width: width),
@@ -91,10 +75,7 @@ class UiHelper {
   }
 
   ///******** Circle Container Decoration Widgets **********///
-  static BoxDecoration circledecorationWithColor(Color backgroundColor,
-      {Color borderColor = Colors.transparent,
-      double borderWidth = 1,
-      Color shadowcolor = Colors.black26}) {
+  static BoxDecoration circledecorationWithColor(Color backgroundColor, {Color borderColor = Colors.transparent, double borderWidth = 1, Color shadowcolor = Colors.black26}) {
     return BoxDecoration(
       shape: BoxShape.circle,
       border: Border.all(width: borderWidth, color: borderColor),
@@ -103,10 +84,7 @@ class UiHelper {
   }
 
   ///******** Custom Button with style Widgets **********///
-  Widget customButton(String title, Function press,
-      {Color bgclr = clr.primaryColor,
-      Color textclr = clr.white,
-      double btnWidth = 100}) {
+  Widget customButton(String title, Function press, {Color bgclr = clr.primaryColor, Color textclr = clr.white, double btnWidth = 100}) {
     return GestureDetector(
         onTap: () {
           press();
@@ -115,10 +93,42 @@ class UiHelper {
           width: btnWidth,
           alignment: Alignment.center,
           padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-          decoration: roundedBorderWithColor(10, bgclr,
-              borderColor: clr.primaryColor, borderWidth: 2),
+          decoration: roundedBorderWithColor(10, bgclr, borderColor: clr.primaryColor, borderWidth: 2),
           child: customText(title, 16, isBold: true, color: textclr),
         ));
+  }
+
+// ************* Dot Design View Widget ****************** \\
+  static Widget dotStyleWidget(int totalCount, int currentIndex) {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(totalCount, (index) {
+          return Container(
+            padding: const EdgeInsets.all(5),
+            child: Icon(
+              Icons.fiber_manual_record,
+              size: 15,
+              color: currentIndex == index ? clr.black : clr.grey01,
+            ),
+          );
+        }));
+  }
+
+// ************* Custom APP Bar Widget ****************** \\
+  static Widget customAppBar(String title) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+      alignment: Alignment.center,
+      child: Row(children: [
+        GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: const Icon(Icons.arrow_back_ios, size: 30, color: clr.secondaryColor),
+        ),
+        customText(title, 20, isBold: true, color: clr.secondaryColor),
+      ]),
+    );
   }
 
   ///******** Loading Widgets **********///
@@ -126,5 +136,10 @@ class UiHelper {
     return const Center(
       child: CircularProgressIndicator(),
     );
+  }
+
+  ///******** Line Widgets **********///
+  static Widget smallLine() {
+    return Container(height: 2, color: clr.grey01.withOpacity(0.5));
   }
 }

@@ -8,7 +8,9 @@ import 'package:promilo/features/login/widgets/other_signnin.dart';
 import 'package:promilo/layouts/custom_input.dart';
 import 'package:promilo/layouts/screen.dart';
 import 'package:promilo/layouts/ui_helper.dart';
+import 'package:promilo/services/api_services.dart';
 import 'package:promilo/services/routes_services.dart';
+import 'package:promilo/services/utils.dart';
 
 class LoginScreenView extends StatefulWidget {
   const LoginScreenView({super.key});
@@ -17,6 +19,9 @@ class LoginScreenView extends StatefulWidget {
 }
 
 class _LoginScreenViewState extends State<LoginScreenView> {
+  String emailid = "";
+  String password = "";
+
   bool remember = false;
   @override
   void initState() {
@@ -66,17 +71,27 @@ class _LoginScreenViewState extends State<LoginScreenView> {
           hintText: str.useridLabel,
           fieldname: "userid",
           fieldType: "email",
+          onEnter: (value) {
+            if (!Utils().isEmailValid(value)) {
+              emailid = "";
+            } else {
+              emailid = value.toString();
+            }
+            setState(() {});
+          },
           validating: (val) {
-            return null;
+            if (val == null || val == "") {
+              return "Email ID is required";
+            } else if (!Utils().isEmailValid(val)) {
+              return "Invalid Email ID";
+            } else {
+              return null;
+            }
           },
         ),
         UiHelper.verticalSpaceSmall,
         Row(
-          children: [
-            const Spacer(),
-            UiHelper.customText(str.signinotp, 15,
-                color: clr.primaryColor, isBold: true)
-          ],
+          children: [const Spacer(), UiHelper.customText(str.signinotp, 15, color: clr.primaryColor, isBold: true)],
         ),
         UiHelper.verticalSpaceSmall,
         CustomInput(
@@ -84,23 +99,24 @@ class _LoginScreenViewState extends State<LoginScreenView> {
           hintText: str.enterpassword,
           fieldname: "password",
           fieldType: "password",
+          onEnter: (value) {
+            if (!Utils().isPasswordValid(value)) {
+              password = "";
+            } else {
+              password = value.toString();
+            }
+            setState(() {});
+          },
           validating: (val) {
-            return null;
+            if (val == null || val == "") {
+              return "Password is required";
+            } else if (!Utils().isPasswordValid(val)) {
+              return "* Need to both lower and upper case characters,\n* Need to at least one symbol & number,\n* be at least 8 characters long.";
+            } else {
+              return null;
+            }
           },
         ),
-        // CustomPasswordField(
-        //   controller: passcontroller,
-        //   hintText: "Password",
-        //   validator: (val) {
-        //     if (val == "" || val == null) {
-        //       return "Passord is Required";
-        //     } else if (!isPasswordValid(val)) {
-        //       return "* Need to both lower and upper case characters,\n* Need to at least one symbol & number,\n* be at least 8 characters long.";
-        //     } else {
-        //       return null;
-        //     }
-        //   },
-        // ),
         Row(
           children: [
             Checkbox(
@@ -114,17 +130,28 @@ class _LoginScreenViewState extends State<LoginScreenView> {
             ),
             Text(str.rememberme),
             const Spacer(),
-            UiHelper.customText(str.forgetpass, 15,
-                color: clr.primaryColor, isBold: true)
+            UiHelper.customText(str.forgetpass, 15, color: clr.primaryColor, isBold: true)
           ],
         ),
         UiHelper.verticalSpaceMedium,
         UiHelper().customButton(
           str.submit,
-          () {
-            Get.toNamed(RoutePath.landing);
+          () async {
+            if (emailid.isNotEmpty && password.isNotEmpty) {
+              Map<String, dynamic> postparams = {};
+              postparams['username'] = emailid;
+              postparams['password'] = Utils().sha256Hash(password);
+              postparams['grant_type'] = "password";
+              bool isVerfied = await ApiService().login(postparams);
+              if (isVerfied) {
+                Utils().showSnackBar("Login successful!", true);
+                Get.toNamed(RoutePath.landing);
+              } else {
+                Utils().showSnackBar("Email ID or Password is incorrect.", false);
+              }
+            }
           },
-          bgclr: clr.disabledColor,
+          bgclr: emailid.isNotEmpty && password.isNotEmpty ? clr.primaryColor : clr.disabledColor,
           textclr: clr.white,
           btnWidth: Screen.width(context),
         )
