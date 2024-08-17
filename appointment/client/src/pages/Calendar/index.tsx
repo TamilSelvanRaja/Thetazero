@@ -8,6 +8,7 @@ import ApproveButton from "../../base-components/ApproveButton";
 import RejectButton from "../../base-components/RejectButton";
 import * as XLSX from "xlsx";
 import RescheduleButton from "../../base-components/RescheduleButton";
+import {API_BASE_URL} from "../../utils/variables";
 
 interface Visitor {
   v_id: number;
@@ -31,7 +32,7 @@ function Main() {
   }, []);
 
   const fetchVisitorData = () => {
-    fetch("http://creat.ink/Server/calendarData", {
+    fetch(API_BASE_URL+"/calendarData", {
       method: "GET",
       credentials: "include",
     })

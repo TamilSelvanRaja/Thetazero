@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Alert from "../../base-components/Alert";
+import {API_BASE_URL} from "../../utils/variables";
 //End Funct
 
 function Login() {
@@ -37,7 +38,7 @@ function Login() {
     if (email.length === 0 || password.length === 0) {
       setErrorMessage("Email and password are required!");
     } else {
-      const url = "http://creat.ink/Server/adminlogin";
+      const url = API_BASE_URL+"/adminlogin";
       const data = { email, password, select };
 
       axios

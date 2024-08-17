@@ -12,7 +12,7 @@
 import Button from "../Button";
 import Lucide from "../Lucide";
 import { useEffect, useState } from "react";
-
+import {API_BASE_URL} from "../../utils/variables";
 // Define the type for visitor data
 interface Visitor {
     v_name: string;
@@ -55,7 +55,7 @@ const ApproveButton: React.FC<ApproveButtonProps> = ({
 
 
   const fetchVisitorData = () => {
-    fetch("http://localhost:3001/Server/calendarData", {
+    fetch(API_BASE_URL+"/calendarData", {
       method: "GET",
       credentials: "include", // Include credentials for session
     })
@@ -76,7 +76,7 @@ const ApproveButton: React.FC<ApproveButtonProps> = ({
 
   const handleApprove = () => {
     console.log("Visitor ID:", visitorId);
-    fetch("http://localhost:3001/Server/approveVisitor", {
+    fetch(API_BASE_URL+"/approveVisitor", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

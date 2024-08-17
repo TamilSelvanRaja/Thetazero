@@ -15,6 +15,7 @@ import Button from "../Button";
 import { Slideover } from "../Headless";
 import Lucide from "../Lucide";
 import { useState } from "react";
+import {API_BASE_URL} from "../../utils/variables";
 
 interface Visitor {
   v_name: string;
@@ -61,7 +62,7 @@ const RescheduleButton: React.FC<RescheduleButtonProps> = ({ visitor, onReschedu
     }
 
   const handleReschedule = (visitorId: number, newDate: string, newTime: string, visitorEmail: string) => {
-    fetch("http://localhost:3001/Server/rescheduleVisitor", {
+    fetch(API_BASE_URL+"/rescheduleVisitor", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -4,6 +4,7 @@ import { Tab } from "../../base-components/Headless";
 import Button from "../../base-components/Button";
 import Calendar from "../../components/Calendar";
 import { useEffect, useState } from "react";
+import {API_BASE_URL} from "../../utils/variables";
 
 // Define the type for visitor data
 interface Visitor {
@@ -27,7 +28,7 @@ function Main() {
   }, []);
 
   const fetchVisitorData = () => {
-    fetch("http://localhost:3001/Server/calendarData", {
+    fetch(API_BASE_URL+"/calendarData", {
       method: "GET",
       credentials: "include", // Include credentials for session
     })
@@ -48,7 +49,7 @@ function Main() {
 
   const handleApprove = (visitorId: number, visitorEmail: string) => {
     console.log("Visitor ID:", visitorId);
-    fetch("http://localhost:3001/Server/approveVisitor", {
+    fetch(API_BASE_URL+"/approveVisitor", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

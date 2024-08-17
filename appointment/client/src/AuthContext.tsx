@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import {API_BASE_URL} from "../src/utils/variables";
 
 interface AuthContextType {
   authenticated: boolean;
@@ -17,7 +18,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     // Replace this with your actual login API call
-    const url = "http://creat.ink/Server/login";
+    const url = API_BASE_URL+"/login";
     const data = { email, password };
 
     try {

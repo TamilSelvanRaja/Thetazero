@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Alert from "../../base-components/Alert";
+import {API_BASE_URL} from "../../utils/variables";
 //End Funct
 
 function Login() {
@@ -30,7 +31,7 @@ function Login() {
     if (email.length === 0 ) {
       setErrorMessage("Registered Email is required!");
     } else {
-      const url = "http://localhost:3001/Server/memberlogin";
+      const url = API_BASE_URL+"/memberlogin";
       const data = { email };
 
       axios

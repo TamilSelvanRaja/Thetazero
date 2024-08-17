@@ -7,7 +7,7 @@ import ApproveButton from "../../base-components/ApproveButton";
 import RejectButton from "../../base-components/RejectButton";
 import Lucide from "../../base-components/Lucide";
 import RescheduleButton from "../../base-components/RescheduleButton";
-
+import {API_BASE_URL} from "../../utils/variables";
 interface Appointment {
   v_id: number;
   v_name: string;
@@ -32,7 +32,7 @@ function Main() {
 
 
   const fetchAppointmentData = () => {
-    fetch("http://creat.ink/Server/appointmentData", {
+    fetch(API_BASE_URL+"/appointmentData", {
       method: "GET",
       credentials: "include",
     })

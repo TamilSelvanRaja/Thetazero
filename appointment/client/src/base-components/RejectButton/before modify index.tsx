@@ -1,17 +1,8 @@
-
-
-
-
-
 // FRONTEND REJECTBUTTON  BEFORE MODIFY OF THE REAL DATABASE
-
-
-
-
-
 import Button from "../Button";
 import Lucide from "../Lucide";
 import { useEffect, useState } from "react";
+import {API_BASE_URL} from "../../utils/variables";
 
 // Define the type for visitor data
 interface Visitor {
@@ -52,7 +43,7 @@ const RejectButton: React.FC<RejectButtonProps> = ({
   }, []);
 
   const fetchVisitorData = () => {
-    fetch("http://localhost:3001/Server/calendarData", {
+    fetch(API_BASE_URL+"/calendarData", {
       method: "GET",
       credentials: "include", // Include credentials for session
     })
@@ -74,7 +65,7 @@ const RejectButton: React.FC<RejectButtonProps> = ({
   const handleReject = () => {
 
     console.log("Visitor ID:", visitorId);
-    fetch("http://localhost:3001/Server/rejectVisitor", {
+    fetch(API_BASE_URL+"/rejectVisitor", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

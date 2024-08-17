@@ -1,6 +1,7 @@
 import Button from "../Button";
 import Lucide from "../Lucide";
 import { useEffect, useState } from "react";
+import {API_BASE_URL} from "../../utils/variables";
 
 interface RejectButtonProps {
   appointmentId: number;
@@ -21,7 +22,7 @@ const RejectButton: React.FC<RejectButtonProps> = ({
   }, []);
 
   const fetchAppointmentStatus = () => {
-    fetch(`http://localhost:3001/Server/getAppointmentStatus/${appointmentId}`, {
+    fetch(API_BASE_URL+`/getAppointmentStatus/${appointmentId}`, {
       method: "GET",
       credentials: "include",
     })
@@ -41,7 +42,7 @@ const RejectButton: React.FC<RejectButtonProps> = ({
   };
 
   const handleReject = () => {
-    fetch("http://localhost:3001/Server/rejectVisitor", {
+    fetch(API_BASE_URL+"/rejectVisitor", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

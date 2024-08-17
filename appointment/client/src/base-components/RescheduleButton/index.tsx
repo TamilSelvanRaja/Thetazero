@@ -4,6 +4,7 @@ import LoadingIcon from "../LoadingIcon";
 import Lucide from "../Lucide";
 import { useEffect, useState } from "react";
 import TinySlider from "../TinySlider";
+import {API_BASE_URL} from "../../utils/variables";
 
 interface Visitor {
   v_name: string;
@@ -35,7 +36,7 @@ const RescheduleButton: React.FC<RescheduleButtonProps> = ({ visitor, onReschedu
   }, []);
 
   const fetchAppointmentStatus = () => {
-    fetch(`http://creat.ink/Server/getAppointmentStatus/${visitor.appointment_id}`, {
+    fetch(API_BASE_URL+`/getAppointmentStatus/${visitor.appointment_id}`, {
       method: "GET",
       credentials: "include",
     })
@@ -55,7 +56,7 @@ const RescheduleButton: React.FC<RescheduleButtonProps> = ({ visitor, onReschedu
 
   const handleReschedule = (visitorId: number, appointmentId: number, newDate: string, newTime: string, visitorEmail: string) => {
     setLoading(true); // Set loading state to true when button is clicked
-    fetch("http://creat.ink/Server/rescheduleVisitor", {
+    fetch(API_BASE_URL+"/rescheduleVisitor", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

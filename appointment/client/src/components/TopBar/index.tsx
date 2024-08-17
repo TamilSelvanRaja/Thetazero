@@ -6,10 +6,13 @@ import { Menu, Popover, Dialog } from "../../base-components/Headless";
 import fakerData from "../../utils/faker";
 import _ from "lodash";
 import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
+
+import {API_BASE_URL} from "../../utils/variables";
 
 function Main(props: { toggleMobileMenu: (event: React.MouseEvent) => void }) {
   const [searchResultModal, setSearchResultModal] = useState(false);
-
+  const navigate = useNavigate();
 
 
 
@@ -20,20 +23,25 @@ function Main(props: { toggleMobileMenu: (event: React.MouseEvent) => void }) {
 
   // Logout function
   const handleLogout = () => {
-    fetch("http://creat.ink/Server/Adminlogout", {
-      method: "GET",
-      // credentials: "include",
-    })
-      .then((response) => {
-        document.cookie =
-          "connect.sid=; expires=Wed, 01 May 2024 00:00:00 UTC; path=/;";
-        localStorage.removeItem("adminId");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("select");
-        // Redirect to login page after successful logout
-        window.location.href = "http://creat.ink/login";
-      })
-      .catch((error) => console.error("Error logging out:", error));
+    localStorage.clear();
+    sessionStorage.clear();
+
+    navigate("/login");
+    // fetch(API_BASE_URL+"/Adminlogout", {
+    //   method: "GET",
+    //   // credentials: "include",
+    // })
+    //   .then((response) => {
+    //     document.cookie =
+    //       "connect.sid=; expires=Wed, 01 May 2024 00:00:00 UTC; path=/;";
+    //     localStorage.removeItem("adminId");
+    //     localStorage.removeItem("userId");
+    //     localStorage.removeItem("select");
+    //     // Redirect to login page after successful logout
+    //  //   window.location.href = "http://creat.ink/login";
+    //  window.location.href = "http://localhost:5137";
+    //   })
+    //   .catch((error) => console.error("Error logging out:", error));
   };
 
   // On press event (Ctrl+k)

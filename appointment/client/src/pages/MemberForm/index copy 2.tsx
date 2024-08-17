@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import TomSelect from "../../base-components/TomSelect";
+import {API_BASE_URL} from "../../utils/variables";
 
 // Function to generate time slots
 const generateTimeSlots = () => {
@@ -39,7 +40,7 @@ function Main() {
   }, [selectedExhibitor, selectedTimeSlots]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/Server/eventdates")
+    axios.get(API_BASE_URL+"/eventdates")
       .then(response => {
         setEventDates(response.data.dates);
       })
@@ -54,7 +55,7 @@ function Main() {
     setSelectedExhibitor([]);
     setSelectedTimeSlots({});
     
-    axios.get(`http://localhost:3001/Server/categories`, {
+    axios.get(API_BASE_URL+`/categories`, {
       params: {
         selectedDate: value
       }
@@ -72,7 +73,7 @@ function Main() {
     setSelectedExhibitor([]);
     setSelectedTimeSlots({});
 
-    axios.get(`http://localhost:3001/Server/exhibitors`, {
+    axios.get(API_BASE_URL+`/exhibitors`, {
       params: {
         selectedCategory: value
       }
@@ -89,7 +90,7 @@ function Main() {
     setSelectedExhibitor(value);
     setSelectedTimeSlots({});
     const promises = value.map(exhibitor => {
-      return axios.get(`http://localhost:3001/Server/timeslots`, {
+      return axios.get(API_BASE_URL+`/timeslots`, {
         params: {
           selectedExhibitor: exhibitor,
           selectedDate: selectedDate // Assuming you're selecting only one date
@@ -185,7 +186,7 @@ function Main() {
     };
 
     // Make a POST request to your backend endpoint to store the data
-    axios.post("http://localhost:3001/Server/submitForm", data)
+    axios.post(API_BASE_URL+"/submitForm", data)
       .then(response => {
         console.log("Data submitted successfully:", response.data);
         // Reset selected values

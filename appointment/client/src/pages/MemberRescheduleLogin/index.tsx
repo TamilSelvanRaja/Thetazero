@@ -22,7 +22,7 @@ function Login() {
     if (phone.length === 0 ) {
       setErrorMessage("Phone number require!");
     } else {
-      const url = "http://creat.ink/Server/memberlogin";
+      const url = API_BASE_URL+"/memberlogin";
       const data = { phone };
       
       axios

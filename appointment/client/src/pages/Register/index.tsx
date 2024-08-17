@@ -12,6 +12,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Alert from "../../base-components/Alert";
+import {API_BASE_URL} from "../../utils/variables";
 // import LoadingIcon from "../LoadingIcon";
 //End Funct
 
@@ -62,7 +63,7 @@ function Register() {
       return;
     } else {
       setLoading(true); // Start loading
-      const url = "http://creat.ink/Server/server";
+      const url = API_BASE_URL+"/server";
       const data = { firstName, lastName, email, password, confirmPassword };
 
       axios

@@ -9,6 +9,7 @@ import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import FormTextarea from "../../base-components/Form/FormTextarea";
 import TinySlider from "../../base-components/TinySlider";
+import {API_BASE_URL} from "../../utils/variables";
 
 // Function to generate time slots
 const generateTimeSlots = () => {
@@ -68,7 +69,7 @@ function Main() {
   useEffect(() => {
     // Fetch visitor ID based on userPhone
     if (userPhone) {
-      axios.get(`http://localhost:3001/Server/getVisitorId`, {
+      axios.get(API_BASE_URL+`/getVisitorId`, {
         params: { phone: userPhone }
       })
       .then(response => {
@@ -81,7 +82,7 @@ function Main() {
   }, [userPhone]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/Server/eventdates")
+    axios.get(API_BASE_URL+"/eventdates")
       .then(response => {
         setEventDates(response.data.dates);
       })
@@ -100,7 +101,7 @@ function Main() {
     setSelectedExhibitor([]);
     setSelectedTimeSlots({});
     
-    axios.get(`http://localhost:3001/Server/categories`, {
+    axios.get(API_BASE_URL+`/categories`, {
       params: {
         selectedDate: value
       }
@@ -118,7 +119,7 @@ function Main() {
     setSelectedExhibitor([]);
     setSelectedTimeSlots({});
 
-    axios.get(`http://localhost:3001/Server/exhibitors`, {
+    axios.get(API_BASE_URL+`/exhibitors`, {
       params: {
         selectedCategory: value
       }
@@ -135,7 +136,7 @@ function Main() {
     setSelectedExhibitor(value);
     setSelectedTimeSlots({});
     const promises = value.map(exhibitor => {
-      return axios.get(`http://localhost:3001/Server/timeslots`, {
+      return axios.get(API_BASE_URL+`/timeslots`, {
         params: {
           selectedExhibitor: exhibitor,
           selectedDate: selectedDate // Assuming you're selecting only one date
@@ -212,7 +213,7 @@ function Main() {
       comments: comments
     };
 
-    axios.post("http://localhost:3001/Server/submitForm", data)
+    axios.post(API_BASE_URL+"/submitForm", data)
       .then(response => {
         setNotificationMessage("Message Saved! The message will be sent in 5 minutes.");
         setShowNotification(true);

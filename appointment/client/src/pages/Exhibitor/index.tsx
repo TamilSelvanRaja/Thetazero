@@ -30,7 +30,7 @@ function ExhibitorPage() {
   }, []);
 
   const fetchExhibitorData = () => {
-    fetch("http://creat.ink/Server/exhibitorData")
+    fetch(API_BASE_URL+"/exhibitorData")
       .then((response) => {
         if (response.ok) {
           return response.json();

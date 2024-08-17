@@ -5,7 +5,7 @@ const mysql = require('mysql');
 const multer = require('multer');
 const path = require('path'); // Add this line
 const app = express();
-const port = 3000;
+const port = 3001;
 // app.use(express.static("build"));
 const session = require('express-session');
 
@@ -17,7 +17,7 @@ app.use(session({
 }));
 
 app.use(cors({
-  origin: 'http://creat.ink',
+  origin: ['http://creat.ink','http://localhost:5173','http://localhost:3001'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 }));
@@ -124,9 +124,7 @@ app.get('/Server/Adminlogout', (req, res) => {
       console.error('Error destroying session:', err);
       return res.status(500).send('Error logging out');
     }
-    // Redirect the user to the login page
-    res.redirect('http://creat.ink/login');
-  });
+    });
 });
 
 // MemberLogin

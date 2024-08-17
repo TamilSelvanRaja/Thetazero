@@ -22,7 +22,7 @@ import React, { useEffect, useState } from "react";
 import TomSelect from "../../base-components/TomSelect";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import {API_BASE_URL} from "../../utils/variables";
 //new
 // import { Dialog } from "@headlessui/react";
 // import { useNavigate } from "react-router-dom";
@@ -131,7 +131,7 @@ function Main() {
     //     formData.append('phone', userPhone); // Append user's phone number
     //   }
     //   const response = await axios.post(
-    //     "http://localhost:3001/Server/memberform",
+    //     API_BASE_URL+"/memberform",
     //     formData
     //   );
 
@@ -155,7 +155,7 @@ function Main() {
 
 
       const response = await axios.post(
-        "http://localhost:3001/Server/memberform",
+        API_BASE_URL+"/memberform",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } } // Add this line
       );

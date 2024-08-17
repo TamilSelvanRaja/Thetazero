@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import TomSelect from "../../base-components/TomSelect";
+import {API_BASE_URL} from "../../utils/variables";
 
 function Main() {
   const [eventDates, setEventDates] = useState<string[]>([]);
@@ -34,7 +35,7 @@ function Main() {
 
   useEffect(() => {
     // Fetch event dates from backend
-    axios.get("http://localhost:3001/Server/eventdates")
+    axios.get(API_BASE_URL+"/eventdates")
       .then(response => {
         setEventDates(response.data.dates);
       })
@@ -50,7 +51,7 @@ function Main() {
     setSelectedTimeSlots({});
 
     // Fetch categories based on selected date(s)
-    axios.get(`http://localhost:3001/Server/categories`, {
+    axios.get(API_BASE_URL+`/categories`, {
       params: {
         selectedDate: value
       }
@@ -69,7 +70,7 @@ function Main() {
     setSelectedTimeSlots({});
 
     // Fetch exhibitors based on selected category
-    axios.get(`http://localhost:3001/Server/exhibitors`, {
+    axios.get(API_BASE_URL+`/exhibitors`, {
       params: {
         selectedCategory: value
       }
@@ -86,7 +87,7 @@ function Main() {
     setSelectedExhibitor(value);
     setSelectedTimeSlots({});
     const promises = value.map(exhibitor => {
-      return axios.get(`http://localhost:3001/Server/timeslots`, {
+      return axios.get(API_BASE_URL+`/timeslots`, {
         params: {
           selectedExhibitor: exhibitor,
           selectedDate: selectedDate[0] // Assuming you're selecting only one date

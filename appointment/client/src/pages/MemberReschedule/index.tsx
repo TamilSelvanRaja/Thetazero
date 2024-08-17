@@ -63,7 +63,7 @@ function Main() {
   useEffect(() => {
     // Fetch visitor ID based on userPhone
     if (userPhone) {
-      axios.get(`http://creat.ink/Server/getVisitorId`, {
+      axios.get(API_BASE_URL+`/getVisitorId`, {
         params: { phone: userPhone }
       })
       .then(response => {
@@ -76,7 +76,7 @@ function Main() {
   }, [userPhone]);
 
   useEffect(() => {
-    axios.get("http://creat.ink/Server/eventdates")
+    axios.get(API_BASE_URL+"/eventdates")
       .then(response => {
         setEventDates(response.data.dates);
       })
@@ -95,7 +95,7 @@ function Main() {
     setSelectedExhibitor([]);
     setSelectedTimeSlots({});
     
-    axios.get(`http://creat.ink/Server/categories`, {
+    axios.get(API_BASE_URL+`/categories`, {
       params: {
         selectedDate: value
       }
@@ -113,7 +113,7 @@ function Main() {
     setSelectedExhibitor([]);
     setSelectedTimeSlots({});
 
-    axios.get(`http://creat.ink/Server/exhibitors`, {
+    axios.get(API_BASE_URL+`/exhibitors`, {
       params: {
         selectedCategory: value
       }
@@ -131,7 +131,7 @@ function Main() {
     setSelectedTimeSlots({});
   
     const promises = value.map(exhibitor => {
-      return axios.get(`http://creat.ink/Server/timeslots`, {
+      return axios.get(API_BASE_URL+`/timeslots`, {
         params: {
           selectedExhibitor: exhibitor,
           selectedDate: selectedDate // Assuming you're selecting only one date
@@ -212,7 +212,7 @@ function Main() {
       comments: comments
     };
 
-    axios.post("http://creat.ink/Server/submitForm", data)
+    axios.post(API_BASE_URL+"/submitForm", data)
       .then(response => {
 
         setIsSubmitting(false);

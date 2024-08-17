@@ -2,6 +2,7 @@ import Button from "../Button";
 import LoadingIcon from "../LoadingIcon";
 import Lucide from "../Lucide";
 import { useEffect, useState } from "react";
+import {API_BASE_URL} from "../../utils/variables";
 
 interface RejectButtonProps {
   visitorId: number;
@@ -29,7 +30,7 @@ const RejectButton: React.FC<RejectButtonProps> = ({
   }, []);
 
   const fetchAppointmentStatus = () => {
-    fetch(`http://creat.ink/Server/getAppointmentStatus/${appointmentId}`, {
+    fetch(API_BASE_URL+`/getAppointmentStatus/${appointmentId}`, {
       method: "GET",
       credentials: "include",
     })
@@ -50,7 +51,7 @@ const RejectButton: React.FC<RejectButtonProps> = ({
 
   const handleReject = () => {
     setLoading(true); // Set loading state to true when button is clicked
-    fetch("http://creat.ink/Server/rejectVisitor", {
+    fetch(API_BASE_URL+"/rejectVisitor", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
