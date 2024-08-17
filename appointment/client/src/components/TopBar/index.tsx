@@ -25,24 +25,8 @@ function Main(props: { toggleMobileMenu: (event: React.MouseEvent) => void }) {
   const handleLogout = () => {
     localStorage.clear();
     sessionStorage.clear();
-
     navigate("/login");
-    // fetch(API_BASE_URL+"/Adminlogout", {
-    //   method: "GET",
-    //   // credentials: "include",
-    // })
-    //   .then((response) => {
-    //     document.cookie =
-    //       "connect.sid=; expires=Wed, 01 May 2024 00:00:00 UTC; path=/;";
-    //     localStorage.removeItem("adminId");
-    //     localStorage.removeItem("userId");
-    //     localStorage.removeItem("select");
-    //     // Redirect to login page after successful logout
-    //  //   window.location.href = "http://creat.ink/login";
-    //  window.location.href = "http://localhost:5137";
-    //   })
-    //   .catch((error) => console.error("Error logging out:", error));
-  };
+     };
 
   // On press event (Ctrl+k)
   document.querySelectorAll("body")[0].onkeydown = (e) => {

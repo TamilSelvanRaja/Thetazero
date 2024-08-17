@@ -5,7 +5,7 @@ import * as XLSX from "xlsx";
 import FormSwitch from "../../base-components/Form/FormSwitch";
 import Lucide from "../../base-components/Lucide";
 import RescheduleButton from "../../base-components/RescheduleButton";
-
+import {API_BASE_URL} from "../../utils/variables";
 
 
 

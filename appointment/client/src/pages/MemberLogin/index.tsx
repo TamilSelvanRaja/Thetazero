@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Alert from "../../base-components/Alert";
+import {API_BASE_URL} from "../../utils/variables";
 //End Funct
 
 function Login() {
@@ -22,7 +23,7 @@ function Login() {
     if (phone.length === 0 ) {
       setErrorMessage("Phone number require!");
     } else {
-      const url = "http://216.10.245.157:3000/Server/memberlogin";
+      const url = API_BASE_URL+"/memberlogin";
       const data = { phone };
       
       axios
