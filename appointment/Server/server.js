@@ -6,6 +6,9 @@ const multer = require('multer');
 const path = require('path'); // Add this line
 const app = express();
 const port = 3001;
+const moment = require('moment');
+const {sendWhatsappStaus} =require('./services/whatsappservices');
+const {sendEmail}=require('./services/emailservices');
 // app.use(express.static("build"));
 const session = require('express-session');
 
@@ -46,10 +49,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //pro
-
-
-
-//AdminLogin New Starts
 
 //AdminLogin
 app.post('/Server/adminlogin', (req, res) => {
@@ -542,28 +541,6 @@ app.get('/Server/getAppointmentStatus/:appointmentId', (req, res) => {
 });
 
 
-
-//Mail Credentails
-
-// Import nodemailer at the top of your backend file
-const nodemailer = require('nodemailer');
-
-// Nodemailer transporter
-const transporter = nodemailer.createTransport({
-  host: 'smtp.zeptomail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: 'emailapikey',
-    pass: 'wSsVR60k/xH5Xa19zTarIe88nFVcVA/0QRl5jASg6iKtH6rK8cdpkE3LVwOjSaUXEzQ8RTIXpu58n0oDhzIJjN17y15WCSiF9mqRe1U4J3x17qnvhDzNV2lbkxuKL4MJxQlumGVgEM4j+g=='
-  },
-  tls: {
-    ciphers: 'SSLv3',
-    rejectUnauthorized: false
-  }
-});
-
-
 app.post('/Server/approveVisitor', (req, res) => {
   const { visitorId, appointmentId, visitorEmail } = req.body;
 
@@ -572,11 +549,15 @@ app.post('/Server/approveVisitor', (req, res) => {
     return res.status(400).json({ message: 'Appointment ID or Email is missing in the request body' });
   }
 
+
   const fetchVisitorQuery = `
-  SELECT v_name
-  FROM visitors
-  WHERE v_id = ?
-  `;
+  SELECT v.v_name,v.v_phone, a.app_date, a.app_time, e.e_company 
+  FROM visitors v
+  JOIN appointments a ON v.v_id = a.v_id
+  JOIN exhibitors e ON a.e_id = e.e_id
+  WHERE v.v_id = ?
+`;
+
 
   db.query(fetchVisitorQuery, [visitorId], (err, results) => {
     if (err) {
@@ -589,9 +570,8 @@ app.post('/Server/approveVisitor', (req, res) => {
       return res.status(404).json({ message: 'Visitor not found' });
     }
 
-    const visitorName = results[0].v_name;
-
-
+    const { v_name,v_phone, app_date, app_time, e_company } = results[0];
+  
     const updateAppointmentQuery = `
       UPDATE appointments
       SET status = 2, updated_at = NOW()
@@ -602,23 +582,24 @@ app.post('/Server/approveVisitor', (req, res) => {
       if (updateErr) {
         console.error('Error updating appointment status to approved:', updateErr);
         return res.status(500).json({ message: 'Error updating appointment status to approved' });
-      }
+      } 
+        const appdate = moment(app_date).format('DD-MM-YYYY');   
+        var whtsappdata = {
+        "to_number":"+91"+v_phone,
+        "name": v_name,
+        "exphitor": e_company,
+        "date":appdate,
+        "time":app_time,
+        "status":"Approved"
+       }
+       sendWhatsappStaus(whtsappdata); 
+       sendEmail(whtsappdata,visitorEmail);
+     
+       if (updateResult.length === 0) {
+        return res.status(500).json({ message: 'Appointment approval failed' });
+      }  
+      res.status(200).json({ message: 'Appointment approval successfully' });    
 
-      const mailOptions = {
-        from: 'noreply@eventink.in',
-        to: visitorEmail,
-        subject: 'Appointment Approval Notification',
-        text: `Dear ${visitorName},\n\nYour appointment has been approved. Thank you!\n\nRegards,\nEvent Management Team`
-      };
-
-      transporter.sendMail(mailOptions, (mailErr, info) => {
-        if (mailErr) {
-          console.error('Error sending approval email:', mailErr);
-          return res.status(500).json({ message: 'Error sending approval email' });
-        }
-        console.log('Approval email sent:', info.response);
-        res.status(200).json({ message: 'Appointment approved and approval email sent successfully' });
-      });
     });
   });
 });
@@ -637,9 +618,11 @@ app.post('/Server/rejectVisitor', (req, res) => {
   }
 
   const fetchVisitorQuery = `
-    SELECT v_name
-    FROM visitors
-    WHERE v_id = ?
+  SELECT v.v_name,v.v_phone, a.app_date, a.app_time, e.e_company 
+  FROM visitors v
+  JOIN appointments a ON v.v_id = a.v_id
+  JOIN exhibitors e ON a.e_id = e.e_id
+  WHERE v.v_id = ?
   `;
 
   db.query(fetchVisitorQuery, [visitorId], (err, results) => {
@@ -653,8 +636,8 @@ app.post('/Server/rejectVisitor', (req, res) => {
       return res.status(404).json({ message: 'Visitor not found' });
     }
 
-    const visitorName = results[0].v_name;
-
+    const { v_name,v_phone, app_date, app_time, e_company } = results[0];  
+  
     // Update the appointment record in the database to set the rejection status
     const updateAppointmentQuery = `
       UPDATE appointments
@@ -667,22 +650,23 @@ app.post('/Server/rejectVisitor', (req, res) => {
         console.error('Error updating appointment rejection status:', updateErr);
         return res.status(500).json({ message: 'Error updating appointment rejection status' });
       }
-
-      const mailOptions = {
-        from: 'noreply@eventink.in',
-        to: visitorEmail,
-        subject: 'Visitor Rejection Notification',
-        text: `Dear ${visitorName},\n\nWe regret to inform you that your visit has been rejected. Thank you for your interest.\n\nRegards,\nEvent Management Team`
-      };
-
-      transporter.sendMail(mailOptions, (mailErr, info) => {
-        if (mailErr) {
-          console.error('Error sending rejection email:', mailErr);
-          return res.status(500).json({ message: 'Error sending rejection email' });
+ 
+        const appdate = moment(app_date).format('DD-MM-YYYY');   
+        var whtsappdata = {
+        "to_number":"+91"+v_phone,
+        "name": v_name,
+        "exphitor": e_company,
+        "date":appdate,
+        "time":app_time,
+        "status":"Approved"
         }
-        console.log('Rejection email sent:', info.response);
-        res.status(200).json({ message: 'Visitor rejected and rejection email sent successfully' });
-      });
+        sendWhatsappStaus(whtsappdata);
+        sendEmail(whtsappdata,visitorEmail);
+     
+        if (updateResult.length === 0) {
+         return res.status(500).json({ message: 'Appointment rejection failed' });
+       }  
+       res.status(200).json({ message: 'Appointment rejected successfully' });  
     });
   });
 });
@@ -697,7 +681,7 @@ app.post('/Server/rescheduleVisitor', (req, res) => {
   }
 
   const fetchAppointmentQuery = `
-    SELECT v.v_name, a.app_date, a.app_time, e.e_company 
+    SELECT v.v_name,v.v_phone, a.app_date, a.app_time, e.e_company 
     FROM visitors v
     JOIN appointments a ON v.v_id = a.v_id
     JOIN exhibitors e ON a.e_id = e.e_id
@@ -715,7 +699,7 @@ app.post('/Server/rescheduleVisitor', (req, res) => {
       return res.status(404).json({ message: 'Appointment not found' });
     }
 
-    const { v_name, app_date, app_time, e_company } = results[0];
+    const { v_name,v_phone, app_date, app_time, e_company } = results[0];
 
 
     const updateAppointmentQuery = `
@@ -730,33 +714,23 @@ app.post('/Server/rescheduleVisitor', (req, res) => {
         return res.status(500).json({ message: 'Error updating appointment record' });
       }
 
-      // Send confirmation email to the visitor
-      const mailOptions = {
-        from: 'noreply@eventink.in',
-        to: visitorEmail,
-        subject: 'Appointment Rescheduled',
-        html: `<p>Dear ${v_name},</p>
-              <p>We apologize for any inconvenience caused.</p> 
-              <p>Your previous appointment with ${e_company} which has been successfully rescheduled to ${newDate} at ${newTime}.</p>
-              <p>Here is the updated schedule:</p>
-              <ul>
-                  <li>Visitor Name: ${v_name}</li>
-                  <li>Visiting Day: ${newDate}</li>
-                  <li>Visiting Exhibitor: ${e_company}</li>
-                  <li>Visiting Time Slot: ${newTime}</li>
-              </ul>
-              <p>We are eager to see you on the auspicious day!</p>
-              <p>If you want to reschedule again, <a href="http://creat.ink/MemberRescheduleLogin">Click Here</a></p>`
-      };
-
-      transporter.sendMail(mailOptions, (mailErr, info) => {
-        if (mailErr) {
-          console.error('Error sending reschedule confirmation email:', mailErr);
-          return res.status(500).json({ message: 'Error sending reschedule confirmation email' });
-        }
-        console.log('Reschedule confirmation email sent:', info.response);
-        res.status(200).json({ message: 'Appointment rescheduled successfully' });
-      });
+      const appdate = moment(app_date).format('DD-MM-YYYY');
+      var whtsappdata = {
+        "to_number":"+91"+v_phone,
+        "name": v_name,
+        "exphitor": e_company,
+        "date":appdate,
+        "time":app_time,
+        "status":"Re-Schedule"
+       }
+       sendWhatsappStaus(whtsappdata);
+       sendEmail(whtsappdata,visitorEmail);
+     
+       if (updateResult.length === 0) {
+        return res.status(500).json({ message: 'Appointment rescheduled failed' });
+      }  
+      res.status(200).json({ message: 'Appointment rescheduled successfully' });
+    
     });
   });
 });
