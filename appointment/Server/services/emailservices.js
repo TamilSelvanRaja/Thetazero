@@ -1,13 +1,13 @@
 const nodemailer = require('nodemailer');
+const { EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS, EMAIL_FROM } = require('../config/variables');
 
-// Nodemailer transporter
 const transporter = nodemailer.createTransport({
-  host: 'smtp.zeptomail.com',
-  port: 587,
+  host: EMAIL_HOST,
+  port: EMAIL_PORT,
   secure: false,
   auth: {
-    user: 'emailapikey',
-    pass: 'wSsVR60k/xH5Xa19zTarIe88nFVcVA/0QRl5jASg6iKtH6rK8cdpkE3LVwOjSaUXEzQ8RTIXpu58n0oDhzIJjN17y15WCSiF9mqRe1U4J3x17qnvhDzNV2lbkxuKL4MJxQlumGVgEM4j+g=='
+    user: EMAIL_USER,
+    pass: EMAIL_PASS
   },
   tls: {
     ciphers: 'SSLv3',
@@ -16,13 +16,12 @@ const transporter = nodemailer.createTransport({
 });
 
 /**
- * Whats App SMS Send Service
+ * Email Service
  * @public
  */
 const sendEmail = (senddata, visitorEmail) => {
-  // Send confirmation email to the visitor
   const mailOptions = {
-    from: 'noreply@eventink.in',
+    from: EMAIL_FROM,
     to: visitorEmail,
     subject: 'Water Today Pvt. Ltd.',
     html: `<!DOCTYPE html>
@@ -121,14 +120,3 @@ const sendEmail = (senddata, visitorEmail) => {
 };
 
 module.exports = { sendEmail };
-
-// `<p>Dear ${v_name},</p>
-//               <p>We apologize for any inconvenience caused.</p> 
-//               <p>Your previous appointment with ${e_company} which has been successfully rescheduled to ${newDate} at ${newTime}.</p>
-//               <p>Here is the updated schedule:</p>
-//               <ul>
-//                   <li>Visitor Name: ${v_name}</li>
-//                   <li>Visiting Day: ${newDate}</li>
-//                   <li>Visiting Exhibitor: ${e_company}</li>
-//                   <li>Visiting Time Slot: ${newTime}</li>
-//               </ul>
