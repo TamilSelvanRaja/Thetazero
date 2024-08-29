@@ -1,4 +1,16 @@
-const { queryservices } = require('../config/database');
+
+const db = require('../config/database');
+
+async function queryservices  (conditions, values) {
+    try {   
+        const responce = await db.query(conditions, [values]);   
+        return responce[0];     
+        }catch(err){
+            console.log("err"+err);
+            return res.status(500).json({ message: 'Internal server error' });
+        } 
+};
+
 
 //********************************************************************\\
 //************************* Admin Login Function *********************\\
@@ -22,17 +34,17 @@ exports.adminlogin = async (req, res) => {
     } else {
         return res.status(400).send('Invalid selection');
     }
-    const result = queryservices(checkUserQuery, [email]);
-    if (result.length === 0) {
-        return res.status(401).send('Invalid email or password');
-    }
-    // User found, verify the password
-    let storedPassword;
+    const result = await queryservices(checkUserQuery, [email]);
+     var storedPassword;
     if (select === '1') {
         storedPassword = result[0].admin_password;
     } else if (select === '2') {
         storedPassword = result[0].u_password;
     }
+
+    console.log(password);
+    
+    console.log(storedPassword);
 
     if (password === storedPassword) {
         // Passwords match, send success response
@@ -47,6 +59,8 @@ exports.adminlogin = async (req, res) => {
         // Passwords do not match
         return res.status(401).send('Invalid email or password');
     }
+    
+
 };
 
 
@@ -56,7 +70,7 @@ exports.adminlogin = async (req, res) => {
 exports.memberlogin = async (req, res) => {
     const { phone } = req.body;
     const checkUserQuery = 'SELECT * FROM visitors WHERE v_phone = ?';
-    const result = queryservices(checkUserQuery, [phone]);
+    const result = await queryservices(checkUserQuery, [phone]);
     if (result.length === 0) {
         return res.status(401).send('Invalid phone number');
     } else {
@@ -83,7 +97,7 @@ exports.exhibitors = async (req, res) => {
       INNER JOIN category c ON e.e_category = c.id
       WHERE c.description IN (?)
     `;
-    const result = queryservices(getExhibitorsQuery, [selectedCategories]);
+    const result = await queryservices(getExhibitorsQuery, [selectedCategories]);
     if (result.length === 0) {
         return res.status(401).send('Exhibitor Not Found');
     } else {
@@ -99,7 +113,7 @@ exports.visitors = async (req, res) => {
     const { phone } = req.query;
     const getVisitorIdQuery = 'SELECT v_id FROM visitors WHERE v_phone = ?';
 
-    const result = queryservices(getVisitorIdQuery, [phone]);
+    const result = await queryservices(getVisitorIdQuery, [phone]);
     if (result.length === 0) {
         return res.status(401).send('Visitor not found');
     } else {
@@ -134,7 +148,7 @@ exports.getExhibitorsDetails = async (req, res) => {
       organization ON events.org_id = organization.org_id
   `;
 
-    const result = queryservices(exhibitorQuery, []);
+    const result = await queryservices(exhibitorQuery, []);
     if (result.length === 0) {
         return res.status(404).json({ message: 'No data found' });
     } else {

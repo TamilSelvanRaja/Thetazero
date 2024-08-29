@@ -5,7 +5,6 @@ const multer = require('multer');
 const path = require('path');
 const app = express();
 const upload = multer();
-const { dbconnection } = require('./config/database');
 const { SERVER_PORT } = require('./config/variables');
 const routes = require('./config/routes');
 
