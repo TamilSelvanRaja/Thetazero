@@ -1,15 +1,15 @@
 
 const db = require('../config/database');
 
-async function queryservices  (conditions, values) {
-    try {   
-        const responce = await db.query(conditions, [values]);   
-        return responce[0];     
-        }catch(err){
-            console.log("err"+err);
-            return res.status(500).json({ message: 'Internal server error' });
-        } 
-};
+// async function queryservices  (conditions, values) {
+//     try {   
+//         const responce = await db.query(conditions, [values]);   
+//         return responce[0];     
+//         }catch(err){
+//             console.log("err"+err);
+//             return res.status(500).json({ message: 'Internal server error' });
+//         } 
+// };
 
 
 //********************************************************************\\
@@ -34,33 +34,37 @@ exports.adminlogin = async (req, res) => {
     } else {
         return res.status(400).send('Invalid selection');
     }
-    const result = await queryservices(checkUserQuery, [email]);
-     var storedPassword;
-    if (select === '1') {
-        storedPassword = result[0].admin_password;
-    } else if (select === '2') {
-        storedPassword = result[0].u_password;
-    }
 
-    console.log(password);
-    
-    console.log(storedPassword);
-
-    if (password === storedPassword) {
-        // Passwords match, send success response
-        var adminId;
-        if (select === '1') {
-            adminId = result[0].org_id;
-        } else if (select === '2') {
-            adminId = result[0].e_id;
+    db.query(checkUserQuery, [email], (checkUserErr, checkUserResults) => {
+        if (checkUserErr) {
+            console.log(checkUserErr);
+            return res.status(500).send('Error accessing database');
         }
-        return res.status(200).json({ message: 'Login successful', tableName: tableName, adminId: adminId, select: select });
-    } else {
-        // Passwords do not match
-        return res.status(401).send('Invalid email or password');
-    }
-    
-
+        if (checkUserResults.length === 0) {
+            // No user found with provided email
+            return res.status(401).send('Invalid email or password');
+        }
+        // User found, verify the password
+        let storedPassword;
+        if (select === '1') {
+            storedPassword = checkUserResults[0].admin_password;
+        } else if (select === '2') {
+            storedPassword = checkUserResults[0].u_password;
+        }
+        if (password === storedPassword) {
+            // Passwords match, send success response
+            var adminId;
+            if (select === '1') {
+                adminId = checkUserResults[0].org_id;
+            } else if (select === '2') {
+                adminId = checkUserResults[0].e_id;
+            }
+            return res.status(200).json({ message: 'Login successful', tableName: tableName, adminId: adminId, select: select });
+        } else {
+            // Passwords do not match
+            return res.status(401).send('Invalid email or password');
+        }
+    });
 };
 
 
@@ -69,16 +73,25 @@ exports.adminlogin = async (req, res) => {
 //********************************************************************\\
 exports.memberlogin = async (req, res) => {
     const { phone } = req.body;
+    console.log("Received login request with phone number:", phone); // Add this log statement
+
+    // Check if the phone number matches a registered user
     const checkUserQuery = 'SELECT * FROM visitors WHERE v_phone = ?';
-    const result = await queryservices(checkUserQuery, [phone]);
-    if (result.length === 0) {
-        return res.status(401).send('Invalid phone number');
-    } else {
-        const userName = result[0].v_name;
-        const userId = result[0].v_id;
-        const userPhone = result[0].v_phone;
-        res.status(200).json({ message: 'Login successful', userName: userName, userId: userId, userPhone: userPhone });
-    }
+
+    db.query(checkUserQuery, [phone], (checkUserErr, checkUserResults) => {
+        if (checkUserErr) {
+            console.log(checkUserErr);
+            res.status(500).send('Error');
+        } else if (checkUserResults.length === 0) {
+            // No user found with provided phone number
+            res.status(401).send('Invalid phone number');
+        } else {
+            const userName = checkUserResults[0].v_name;
+            const userId = checkUserResults[0].v_id; // Assuming the user ID column is named 'v_id'
+            const userPhone = checkUserResults[0].v_phone;
+            res.status(200).json({ message: 'Login successful', userName: userName, userId: userId, userPhone: userPhone });
+        }
+    });
 };
 
 //********************************************************************\\
@@ -97,13 +110,17 @@ exports.exhibitors = async (req, res) => {
       INNER JOIN category c ON e.e_category = c.id
       WHERE c.description IN (?)
     `;
-    const result = await queryservices(getExhibitorsQuery, [selectedCategories]);
-    if (result.length === 0) {
-        return res.status(401).send('Exhibitor Not Found');
-    } else {
+
+    db.query(getExhibitorsQuery, [selectedCategories], (err, result) => {
+        if (err) {
+            console.error('Error fetching exhibitors from database:', err);
+            res.status(500).json({ message: 'Internal server error' });
+            return;
+        }
+
         const exhibitors = result.map(row => row.e_company);
-        return res.status(200).json({ exhibitors: exhibitors });
-    }
+        res.status(200).json({ exhibitors: exhibitors });
+    });
 };
 
 //********************************************************************\\
@@ -111,14 +128,19 @@ exports.exhibitors = async (req, res) => {
 //********************************************************************\\
 exports.visitors = async (req, res) => {
     const { phone } = req.query;
+
     const getVisitorIdQuery = 'SELECT v_id FROM visitors WHERE v_phone = ?';
 
-    const result = await queryservices(getVisitorIdQuery, [phone]);
-    if (result.length === 0) {
-        return res.status(401).send('Visitor not found');
-    } else {
-        return res.status(200).json({ vId: result[0].v_id });
-    }
+    db.query(getVisitorIdQuery, [phone], (err, result) => {
+        if (err) {
+            console.error('Error fetching visitor ID:', err);
+            res.status(500).send('Error');
+        } else if (result.length === 0) {
+            res.status(404).send('Visitor not found');
+        } else {
+            res.status(200).json({ vId: result[0].v_id });
+        }
+    });
 };
 
 //********************************************************************\\
@@ -148,10 +170,17 @@ exports.getExhibitorsDetails = async (req, res) => {
       organization ON events.org_id = organization.org_id
   `;
 
-    const result = await queryservices(exhibitorQuery, []);
-    if (result.length === 0) {
-        return res.status(404).json({ message: 'No data found' });
-    } else {
-        return res.status(200).json({ exhibitorData: result });
-    }
+    db.query(exhibitorQuery, (err, results) => {
+        if (err) {
+            console.error('Error fetching data from database:', err);
+            return res.status(500).json({ message: 'Internal server error' });
+        }
+
+        // Ensure results are not empty before sending response
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'No data found' });
+        }
+
+        res.status(200).json({ exhibitorData: results });
+    });
 };
