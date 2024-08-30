@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const usercontroller = require('../controller/users.controller');
 const eventcontroller = require('../controller/events.controller');
+const appointmentcontroller = require('../controller/appointment.controller');
 
 router.get("/", (req, res) => res.send("Token Not Verified"));
 
@@ -27,10 +28,10 @@ router.get("/calendarData", eventcontroller.calendarData);
 //*****************************************************************************\\
 //********************* Appointment Management Routes *************************\\
 //*****************************************************************************\\
-router.get("/getAppointmentStatus/:appointmentId", (req, res) => res.send("Token"));
-router.post("/approveVisitor", (req, res) => res.send("Token"));
-router.post("/rejectVisitor", (req, res) => res.send("Token"));
-router.post("/rescheduleVisitor", (req, res) => res.send("Token"));
-router.get("/appointmentData", (req, res) => res.send("Token"));
+router.get("/getAppointmentStatus/:appointmentId",appointmentcontroller.getAppointment);
+router.post("/approveVisitor", appointmentcontroller.approveVisitor);
+router.post("/rejectVisitor", appointmentcontroller.rejectVisitor);
+router.post("/rescheduleVisitor", appointmentcontroller.rescheduleVisitor);
+router.get("/appointmentData", appointmentcontroller.appointmentData);
 
 module.exports = router;
