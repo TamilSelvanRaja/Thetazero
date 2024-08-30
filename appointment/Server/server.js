@@ -15,9 +15,6 @@ app.use(cors({
   credentials: true,
 }));
 
-// Database Connection Function
-//dbconnection();
-
 // App Permissions Enables
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
