@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:sample_app_test1/constants/ui_helper.dart';
 
 class AddItemsButton extends StatelessWidget {
@@ -22,7 +21,7 @@ class AddItemsButton extends StatelessWidget {
       ),
       child: const Text(
         "Add",
-        style: TextStyle(fontSize: 16, color: Colors.green, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 15, color: Colors.green, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -47,9 +46,9 @@ class AddMoreItemsButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          IconButton(padding: const EdgeInsets.all(0), onPressed: onIncrement, icon: const Icon(Icons.remove, color: Colors.green)),
+          IconButton(padding: const EdgeInsets.all(0), onPressed: ondecrement, icon: const Icon(Icons.remove, color: Colors.green, size: 14)),
           label,
-          IconButton(padding: const EdgeInsets.all(0), onPressed: onIncrement, icon: const Icon(Icons.add, color: Colors.green)),
+          IconButton(padding: const EdgeInsets.all(0), onPressed: onIncrement, icon: const Icon(Icons.add, color: Colors.green, size: 14)),
         ],
       ),
     );

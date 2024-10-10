@@ -17,7 +17,6 @@ class HomeController extends GetxController {
     if (requestData.isNotEmpty) {
       dynamic temp = requestData[0];
       temp['count'] = temp['count'] + 1;
-      print("$temp");
       cartList.removeWhere((e) => e['product_id'] == productId);
       cartList.add(temp);
     } else {
@@ -26,16 +25,17 @@ class HomeController extends GetxController {
         'count': 1,
       });
     }
+  }
 
-    // for (int i = 0; i < cartList.length; i++) {
-    //   if (cartList[i]['product_id'] == productId) {
-    //     cartList[i]['count'] += 1;
-    //   } else {
-    //     cartList.add({
-    //       'product_id': productId,
-    //       'count': 1,
-    //     });
-    //   }
-    // }
+  cartreduceItemFunction(int productId) {
+    List requestData = cartList.where((e) => e['product_id'] == productId).toList();
+    if (requestData.isNotEmpty) {
+      dynamic temp = requestData[0];
+      temp['count'] = temp['count'] - 1;
+      cartList.removeWhere((e) => e['product_id'] == productId);
+      if (temp['count'] > 0) {
+        cartList.add(temp);
+      }
+    }
   }
 }

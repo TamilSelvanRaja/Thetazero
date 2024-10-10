@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sample_app_test1/constants/ui_helper.dart';
@@ -93,27 +91,31 @@ class MyHomePage extends StatelessWidget {
               ],
             ),
             UIHelper.verticalSpaceSmall,
-            GetBuilder<HomeController>(builder: (controller) {
-              return Obx(() {
-                List requestData = controller.cartList.where((e) => e['product_id'] == productData['product_id']).toList();
-                String count = "";
-                if (requestData.isNotEmpty) {
-                  log("$requestData");
-                  count = requestData[0]['count'].toString();
-                }
-                return requestData.isEmpty
-                    ? AddItemsButton(onTap: () {
-                        controller.cartAddFunction(productData['product_id']);
-                      })
-                    : AddMoreItemsButton(
-                        label: Text("${count}", style: const TextStyle(fontSize: 18, color: Colors.green, fontWeight: FontWeight.bold)),
-                        onIncrement: () {
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GetBuilder<HomeController>(builder: (controller) {
+                return Obx(() {
+                  List requestData = controller.cartList.where((e) => e['product_id'] == productData['product_id']).toList();
+                  String count = "";
+                  if (requestData.isNotEmpty) {
+                    count = requestData[0]['count'].toString();
+                  }
+                  return requestData.isEmpty
+                      ? AddItemsButton(onTap: () {
                           controller.cartAddFunction(productData['product_id']);
-                        },
-                        ondecrement: () {},
-                      );
-              });
-            })
+                        })
+                      : AddMoreItemsButton(
+                          label: Text(count, style: const TextStyle(fontSize: 15, color: Colors.green, fontWeight: FontWeight.bold)),
+                          onIncrement: () {
+                            controller.cartAddFunction(productData['product_id']);
+                          },
+                          ondecrement: () {
+                            controller.cartreduceItemFunction(productData['product_id']);
+                          },
+                        );
+                });
+              }),
+            )
           ],
         ),
       ),
