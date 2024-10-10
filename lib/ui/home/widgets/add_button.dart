@@ -1,5 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sample_app_test1/constants/ui_helper.dart';
+import 'package:sample_app_test1/controller/home_controller.dart';
+
+class CartItemsAddRemove extends StatelessWidget {
+  const CartItemsAddRemove({super.key, required this.productId});
+  final int productId;
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<HomeController>(builder: (controller) {
+      return Obx(() {
+        List requestData = controller.cartList.where((e) => e['product_id'] == productId).toList();
+        String count = "";
+        if (requestData.isNotEmpty) {
+          count = requestData[0]['count'].toString();
+        }
+        return requestData.isEmpty
+            ? AddItemsButton(onTap: () {
+                controller.cartAddFunction(productId);
+              })
+            : AddMoreItemsButton(
+                label: Text(count, style: const TextStyle(fontSize: 15, color: Colors.green, fontWeight: FontWeight.bold)),
+                onIncrement: () {
+                  controller.cartAddFunction(productId);
+                },
+                ondecrement: () {
+                  controller.cartreduceItemFunction(productId);
+                },
+              );
+      });
+    });
+  }
+}
 
 class AddItemsButton extends StatelessWidget {
   const AddItemsButton({
@@ -9,19 +42,16 @@ class AddItemsButton extends StatelessWidget {
   final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onTap,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        minimumSize: const Size(double.infinity, 30),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5), // 15 pixel border radius
-          side: const BorderSide(color: Colors.green, width: 1),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 30,
+        alignment: Alignment.center,
+        decoration: UIHelper.roundedBorderWithColor(5, Colors.transparent, borderColor: Colors.green),
+        child: const Text(
+          "Add",
+          style: TextStyle(fontSize: 15, color: Colors.green, fontWeight: FontWeight.bold),
         ),
-      ),
-      child: const Text(
-        "Add",
-        style: TextStyle(fontSize: 15, color: Colors.green, fontWeight: FontWeight.bold),
       ),
     );
   }

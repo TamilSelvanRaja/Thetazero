@@ -1,19 +1,38 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:sample_app_test1/constants/app_variables.dart';
 import 'package:sample_app_test1/constants/ui_helper.dart';
 import 'package:sample_app_test1/controller/home_controller.dart';
 import 'package:sample_app_test1/ui/home/widgets/rating.dart';
 
-class DetailsPage extends StatelessWidget {
-  DetailsPage({super.key, this.productData});
+class DetailsPage extends StatefulWidget {
+  const DetailsPage({super.key, this.productData});
   final dynamic productData;
+
+  @override
+  State<DetailsPage> createState() => _DetailsPageState();
+}
+
+class _DetailsPageState extends State<DetailsPage> {
   final HomeController homecontroller = Get.find<HomeController>();
+  dynamic productData = {};
+  int quantity = 1;
+  @override
+  void initState() {
+    productData = widget.productData;
+    setState(() {});
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text('Thetazero Assessment'),
+      ),
       body: SafeArea(
           top: true,
           child: Container(
@@ -52,13 +71,13 @@ class DetailsPage extends StatelessWidget {
                     itemBuilder: (context, index, realIndex) {
                       String imgUrl = productData['product_image'][index];
                       return Container(
-                        width: Get.width / 1.5,
+                        width: Get.width / 1.2,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           image: DecorationImage(
                             image: AssetImage(imgUrl),
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fill,
                           ),
                         ),
                       );
@@ -90,7 +109,34 @@ class DetailsPage extends StatelessWidget {
                       Text("₹ ${productData['product_price']}", style: const TextStyle(fontSize: 25, color: Colors.red, fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  UIHelper.verticalSpaceMedium,
+                  UIHelper.verticalSpaceSmall,
+                  Row(
+                    children: [
+                      const Text("Quantity : ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      SizedBox(
+                          width: 100,
+                          child: FormBuilderDropdown(
+                              name: "",
+                              initialValue: "1",
+                              onChanged: (value) {
+                                setState(() {
+                                  quantity = int.parse(value.toString());
+                                });
+                              },
+                              items: ['1', '2', '3', '4', '5']
+                                  .map((option) => DropdownMenuItem(
+                                        value: option,
+                                        child: Text(option),
+                                      ))
+                                  .toList(),
+                              decoration: InputDecoration(
+                                  enabledBorder: UIHelper.getInputBorder(1, borderColor: Colors.green, radius: 10),
+                                  focusedBorder: UIHelper.getInputBorder(1, borderColor: Colors.green, radius: 10),
+                                  disabledBorder: UIHelper.getInputBorder(1, borderColor: Colors.green, radius: 10),
+                                  contentPadding: const EdgeInsets.symmetric(vertical: 3, horizontal: 10)))),
+                    ],
+                  ),
+                  UIHelper.verticalSpaceSmall,
                   const Text(
                     "Product Details",
                     style: TextStyle(color: Colors.green, fontSize: 18, fontWeight: FontWeight.bold),
@@ -116,7 +162,11 @@ class DetailsPage extends StatelessWidget {
                   UIHelper.verticalSpaceMedium,
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        homecontroller.cartFunction(productData['product_id'], quantity);
+                        Get.back();
+                        Get.snackbar("Success", "Cart added your items", colorText: Colors.white, backgroundColor: Colors.green, duration: const Duration(seconds: 1));
+                      },
                       style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.green)),
                       child: const Text(
                         "Add to cart",

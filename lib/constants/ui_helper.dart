@@ -10,7 +10,8 @@ class UIHelper {
   static const Widget horizantalSpaceMedium = SizedBox(width: 10.0);
 
   ///******** Container BOX Decoration **********///
-  static BoxDecoration roundedBorderWithColor(double radius, Color backgroundColor, {Color borderColor = Colors.transparent, double borderWidth = 1, bool isShadow = false, Color shadowcolor = Colors.black45}) {
+  static BoxDecoration roundedBorderWithColor(double radius, Color backgroundColor,
+      {Color borderColor = Colors.transparent, double borderWidth = 1, bool isShadow = false, Color shadowcolor = Colors.black45}) {
     return BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(radius)),
         border: Border.all(width: borderWidth, color: borderColor),
@@ -24,5 +25,13 @@ class UIHelper {
                 )
               ]
             : []);
+  }
+
+  static OutlineInputBorder getInputBorder(double width, {double radius = 28, Color borderColor = Colors.transparent}) {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(radius)),
+      borderSide: BorderSide(color: borderColor, width: width),
+      gapPadding: 10,
+    );
   }
 }

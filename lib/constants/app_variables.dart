@@ -6,8 +6,9 @@ class AppVaiables {
       "product_price": 500,
       "product_image": [
         "assets/products/shoe1.png",
+        "assets/products/shoe1.jpg",
         "assets/products/shoe2.jpg",
-        "assets/products/shoe3.png",
+        "assets/products/shoe3.jpg",
       ],
       "rating": 3.5,
       "title1": "Visit the ABC Store",

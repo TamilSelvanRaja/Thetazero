@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sample_app_test1/ui/home/home_page.dart';
-
-import 'utils/app_dependency.dart';
+import 'package:sample_app_test1/ui/home/splash.dart';
+import 'package:sample_app_test1/utils/app_dependency.dart';
 
 void main() {
   CustomDependency.initialDependecy();
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MyHomePage(title: 'Thetazero Assessment'),
+      home: const Spalsh(),
     );
   }
 }
