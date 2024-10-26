@@ -10,7 +10,7 @@ const routes = require('./config/routes');
 
 // HTTPS CORS Permission added
 app.use(cors({
-  origin: ['http://creat.ink','https://eventapp-hd7a.onrender.com', 'http://localhost:5173', 'http://localhost:3001'],
+  origin: ['https://creat.ink','https://eventapp-hd7a.onrender.com', 'http://localhost:5173', 'http://localhost:3001'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 }));
