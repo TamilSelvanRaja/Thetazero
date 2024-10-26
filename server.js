@@ -21,9 +21,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(upload.array());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-app.get('/', (req, res) => {
-  res.send('Server is running');
-});
 
 app.use('/Server', routes);
 

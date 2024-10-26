@@ -5,6 +5,7 @@ const eventcontroller = require('../controller/events.controller');
 const appointmentcontroller = require('../controller/appointment.controller');
 
 router.get("/", (req, res) => res.send("Token Not Verified"));
+router.get("/servertest", (req, res) => res.send("Server running..."));
 
 //*****************************************************************************\\
 //********************* Exhibitors & Organizations Routes *********************\\
