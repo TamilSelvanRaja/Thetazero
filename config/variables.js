@@ -1,7 +1,7 @@
 //********************************************************************\\
 //***************** Data Base Connection Keys ************************\\
 //********************************************************************\\
-exports.PORT = 3001;
+exports.SERVER_PORT = 3001;
 //exports.HOST_NAME = 'cs2004.webhostbox.net';
 //exports.USER_NAME = 'typpia0d_harsha';
 //exports.PASSWORD = 'typpia0d_harsha';
