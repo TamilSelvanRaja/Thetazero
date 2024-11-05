@@ -8,10 +8,10 @@ exports.PASSWORD = 'Hi4#XiPxVP';
 exports.DATABASE = 'eventapp';
 
 
-exports.HOST_NAME = 'database-1.c9aqsycq0wej.ap-south-1.rds.amazonaws.com';
-exports.USER_NAME = 'aponmozhi';
-exports.PASSWORD = 'Hi4#XiPxVP';
-exports.DATABASE = 'eventapp';
+//exports.HOST_NAME = 'database-1.c9aqsycq0wej.ap-south-1.rds.amazonaws.com';
+//exports.USER_NAME = 'aponmozhi';
+//exports.PASSWORD = 'Hi4#XiPxVP';
+//exports.DATABASE = 'eventapp';
 
 
 
