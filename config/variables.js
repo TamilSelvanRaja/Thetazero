@@ -2,10 +2,11 @@
 //***************** Data Base Connection Keys ************************\\
 //********************************************************************\\
 exports.SERVER_PORT = 3001;
-//exports.HOST_NAME = 'cs2004.webhostbox.net';
-//exports.USER_NAME = 'typpia0d_harsha';
-//exports.PASSWORD = 'typpia0d_harsha';
-//exports.DATABASE = 'typpia0d_eventapp';
+exports.HOST_NAME = '119.18.48.30';
+exports.USER_NAME = 'aponmozhi';
+exports.PASSWORD = 'Hi4#XiPxVP';
+exports.DATABASE = 'eventapp';
+
 
 exports.HOST_NAME = 'database-1.c9aqsycq0wej.ap-south-1.rds.amazonaws.com';
 exports.USER_NAME = 'aponmozhi';
