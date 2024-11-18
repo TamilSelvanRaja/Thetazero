@@ -11,19 +11,13 @@ const exhibitorSchema = new mongoose.Schema({
         index: true,
         trim: true,
     },
-    company_name: {
+    cat_id: {
         maxlength: 80,
         type: String,
         index: true,
         trim: true,
     },
-    email: {
-        maxlength: 80,
-        type: String,
-        index: true,
-        trim: true,
-    },
-    password: {
+    stall_id: {
         maxlength: 80,
         type: String,
         index: true,

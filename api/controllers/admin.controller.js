@@ -1,5 +1,6 @@
 const Categories = require('../model/admin/category.model');
-
+const Exhibitors = require('../model/admin/exhibitors.model');
+//const { dummydata } = require('./dummydata');
 
 /**
  * Admin Functions
@@ -13,6 +14,12 @@ exports.adminfunctions = async (req, res, next) => {
                 break;
             case "get_category":
                 getCategory(req, res, next);
+                break;
+            case "add_exhibitors":
+                addExhibitors(req, res, next);
+                break;
+            case "get_exhibitors":
+                getExhibitors(req, res, next);
                 break;
             default:
                 errfunc(res);
@@ -46,6 +53,34 @@ const getCategory = async (req, res, next) => {
             is_active: true
         });
         return res.status(200).json({ msg: true, message: "Successfully category list fetched", data: responceData });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const addExhibitors = async (req, res, next) => {
+    try {
+
+        const totalList = await Exhibitors.find();
+        var total = totalList.length + 1;
+        const stallid = "stall_" + total;
+        req.body.is_active = true;
+        req.body.stall_id = stallid;
+        const data = new Exhibitors(req.body);
+        await data.save();
+
+        return res.status(200).json({ msg: true, message: "Exhibitor successfully added" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const getExhibitors = async (req, res, next) => {
+    try {
+        const responceData = await Exhibitors.find({
+            is_active: true
+        });
+        return res.status(200).json({ msg: true, message: "Successfully exhibitor list fetched", data: responceData });
     } catch (error) {
         next(error);
     }
