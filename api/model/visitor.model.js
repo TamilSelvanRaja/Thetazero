@@ -25,7 +25,7 @@ const visitorSchema = new mongoose.Schema({
     },
     country_code: {
         type: String,
-        maxlength: 128,
+        maxlength: 18,
         index: true,
         trim: true,
     },

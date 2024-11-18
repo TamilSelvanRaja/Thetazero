@@ -1,5 +1,6 @@
 const Visitors = require('../model/visitor.model');
-
+const Appointment = require('../model/appointment.model');
+const SubAppointment = require('../model/appointment_sub.model');
 /**
  * Visitors Functions
  * @public
@@ -13,6 +14,9 @@ exports.visitorfunctions = async (req, res, next) => {
             case "login_member":
                 login(req, res, next);
                 break;
+            case "book_appointment":
+                bookAppointment(req, res, next);
+                break;
             default:
                 errfunc(res);
                 break;
@@ -23,6 +27,16 @@ exports.visitorfunctions = async (req, res, next) => {
     }
 };
 
+const addMember = async (req, res, next) => {
+    try {
+        req.body.is_active = true;
+        const data = new Visitors(req.body);
+        await data.save();
+        return res.status(200).json({ res_status: true, message: "New Visitors added." });
+    } catch (error) {
+        next(error);
+    }
+};
 
 const login = async (req, res, next) => {
     try {
@@ -51,12 +65,21 @@ const login = async (req, res, next) => {
     }
 };
 
-const addMember = async (req, res, next) => {
+const bookAppointment = async (req, res, next) => {
     try {
         req.body.is_active = true;
-        const data = new Visitors(req.body);
-        await data.save();
-        return res.status(200).json({ res_status: true, message: "New Visitors added." });
+        const data = new Appointment(req.body);
+        const saveData = await data.save();
+        const appointmentsList = JSON.parse(req.body.appointments);
+        appointmentsList.forEach(async (element) => {
+            element.appointment_id = saveData._id;
+            element.is_active = true;
+            element.status = "New"
+            const elementSave = new SubAppointment(element);
+            await elementSave.save();
+        });
+
+        return res.status(200).json({ res_status: true, message: "Appointment Booking Successfully" });
     } catch (error) {
         next(error);
     }
