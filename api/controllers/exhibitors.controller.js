@@ -35,6 +35,7 @@ const addExhibitors = async (req, res, next) => {
     }
 };
 
+
 const errfunc = async (res) => {
     return res.status(200).json({ msg: false, message: 'Something went wrong' });
 }

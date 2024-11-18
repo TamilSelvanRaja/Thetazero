@@ -26,7 +26,11 @@ exports.adminfunctions = async (req, res, next) => {
 
 const addCategory = async (req, res, next) => {
     try {
+        const totalList = await Categories.find();
+        var total = totalList.length + 1;
+        const refId = "cat_" + total;
         req.body.is_active = true;
+        req.body.ref_id = refId;
         const data = new Categories(req.body);
         await data.save();
         return res.status(200).json({ msg: true, message: "Cateogry successfully added" });

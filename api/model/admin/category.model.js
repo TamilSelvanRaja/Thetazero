@@ -11,6 +11,12 @@ const categorySchema = new mongoose.Schema({
         index: true,
         trim: true,
     },
+    ref_id: {
+        maxlength: 10,
+        type: String,
+        index: true,
+        trim: true,
+    },
     is_active: {
         type: Boolean,
     },
