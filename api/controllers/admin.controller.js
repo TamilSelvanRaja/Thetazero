@@ -1,5 +1,6 @@
 const Categories = require('../model/admin/category.model');
 const Exhibitors = require('../model/admin/exhibitors.model');
+const Events = require('../model/admin/events.model');
 //const { dummydata } = require('./dummydata');
 
 /**
@@ -9,6 +10,12 @@ const Exhibitors = require('../model/admin/exhibitors.model');
 exports.adminfunctions = async (req, res, next) => {
     try {
         switch (req.body.service_id) {
+            case "add_event":
+                addEvent(req, res, next);
+                break;
+            case "get_current_event":
+                getEvent(req, res, next);
+                break;
             case "add_category":
                 addCategory(req, res, next);
                 break;
@@ -26,6 +33,33 @@ exports.adminfunctions = async (req, res, next) => {
                 break;
         }
 
+    } catch (error) {
+        next(error);
+    }
+};
+
+const addEvent = async (req, res, next) => {
+    try {
+        req.body.is_active = true;
+        const data = new Events(req.body);
+        await data.save();
+        return res.status(200).json({ msg: true, message: "Event successfully added" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const getEvent = async (req, res, next) => {
+    try {
+        const responceData = await Events.findOne({
+            is_active: true
+        });
+        if (responceData) {
+            return res.status(200).json({ msg: true, message: "Events Data", data: responceData });
+        } else {
+            return res.status(200).json({ msg: false, message: "Not yet start event" });
+
+        }
     } catch (error) {
         next(error);
     }
