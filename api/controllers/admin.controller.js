@@ -1,7 +1,6 @@
 const Categories = require('../model/admin/category.model');
 const Exhibitors = require('../model/admin/exhibitors.model');
 const Events = require('../model/admin/events.model');
-//const { dummydata } = require('./dummydata');
 
 /**
  * Admin Functions

@@ -1,27 +1,35 @@
 const mongoose = require('mongoose');
 
 /**
- * Appointment Schema
+ * Users Schema
  * @private
  */
-const appointmentSchema = new mongoose.Schema({
-    visitor_id: {
+const usersSchema = new mongoose.Schema({
+    name: {
+        maxlength: 80,
+        type: String,
+        index: true,
+        trim: true,
+    },
+    exhibitor_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "visitors",
+        ref: "exhibitors",
     },
-    app_date: {
-        maxlength: 20,
+    user_id: {
         type: String,
+        maxlength: 15,
         index: true,
         trim: true,
     },
-    categories: {
+    email: {
         type: String,
+        maxlength: 128,
         index: true,
         trim: true,
     },
-    note: {
+    password: {
         type: String,
+        maxlength: 128,
         index: true,
         trim: true,
     },
@@ -37,4 +45,4 @@ const appointmentSchema = new mongoose.Schema({
 /**
  * @typedef users
  */
-module.exports = mongoose.model('appointments', appointmentSchema);
+module.exports = mongoose.model('users', usersSchema);
