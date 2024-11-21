@@ -42,7 +42,7 @@ const addEvent = async (req, res, next) => {
         req.body.is_active = true;
         const data = new Events(req.body);
         await data.save();
-        return res.status(200).json({ msg: true, message: "Event successfully added" });
+        return res.status(200).json({ res_status: true, message: "Event successfully added" });
     } catch (error) {
         next(error);
     }
@@ -54,9 +54,9 @@ const getEvent = async (req, res, next) => {
             is_active: true
         });
         if (responceData) {
-            return res.status(200).json({ msg: true, message: "Events Data", data: responceData });
+            return res.status(200).json({ res_status: true, message: "Events Data", data: responceData });
         } else {
-            return res.status(200).json({ msg: false, message: "Not yet start event" });
+            return res.status(200).json({ res_status: false, message: "Not yet start event" });
 
         }
     } catch (error) {
@@ -73,7 +73,7 @@ const addCategory = async (req, res, next) => {
         req.body.ref_id = refId;
         const data = new Categories(req.body);
         await data.save();
-        return res.status(200).json({ msg: true, message: "Cateogry successfully added" });
+        return res.status(200).json({ res_status: true, message: "Cateogry successfully added" });
     } catch (error) {
         next(error);
     }
@@ -85,7 +85,7 @@ const getCategory = async (req, res, next) => {
         const responceData = await Categories.find({
             is_active: true
         });
-        return res.status(200).json({ msg: true, message: "Successfully category list fetched", data: responceData });
+        return res.status(200).json({ res_status: true, message: "Successfully category list fetched", data: responceData });
     } catch (error) {
         next(error);
     }
@@ -102,7 +102,7 @@ const addExhibitors = async (req, res, next) => {
         const data = new Exhibitors(req.body);
         await data.save();
 
-        return res.status(200).json({ msg: true, message: "Exhibitor successfully added" });
+        return res.status(200).json({ res_status: true, message: "Exhibitor successfully added" });
     } catch (error) {
         next(error);
     }
@@ -113,14 +113,14 @@ const getExhibitors = async (req, res, next) => {
         const responceData = await Exhibitors.find({
             is_active: true
         });
-        return res.status(200).json({ msg: true, message: "Successfully exhibitor list fetched", data: responceData });
+        return res.status(200).json({ res_status: true, message: "Successfully exhibitor list fetched", data: responceData });
     } catch (error) {
         next(error);
     }
 };
 
 const errfunc = async (res) => {
-    return res.status(200).json({ msg: false, message: 'Something went wrong' });
+    return res.status(200).json({ res_status: false, message: 'Something went wrong' });
 }
 
 
