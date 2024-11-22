@@ -2,6 +2,7 @@ const Users = require('../model/users.model');
 const Visitors = require('../model/visitor.model');
 const Appointment = require('../model/appointment.model');
 const SubAppointment = require('../model/appointment_sub.model');
+const Exhibitors = require('../model/admin/exhibitors.model');
 
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(10);
@@ -29,6 +30,9 @@ exports.userfunctions = async (req, res, next) => {
             case "reject_appointments":
                 rejectAppointment(req, res, next);
                 break;
+            case "reschedule_appointments":
+                rescheduleAppointment(req, res, next);
+                break;
             default:
                 errfunc(res);
                 break;
@@ -54,7 +58,7 @@ const addUser = async (req, res, next) => {
 
 const login = async (req, res, next) => {
     try {
-        const { email, password } = req.body;
+        const { email, password, type } = req.body;
         let user;
         user = await Users.findOne({ email: email });
         if (!user) {
@@ -81,6 +85,7 @@ const login = async (req, res, next) => {
 const getAppointments = async (req, res, next) => {
     try {
         const { exhibitor_id } = req.body;
+        var exhibitor = await Exhibitors.findOne({ _id: exhibitor_id, is_active: true })
         var appointmentsList = await SubAppointment.find({ exhibitor_id: exhibitor_id, is_active: true });
 
         var respoceData = [];
@@ -90,10 +95,11 @@ const getAppointments = async (req, res, next) => {
             const visitor = await Visitors.findOne({ _id: mainAppointment.visitor_id });
 
             returnData._id = item._id;
+            returnData.organization = exhibitor.name;
             returnData.appointment_id = item.appointment_id;
             returnData.visitor_id = mainAppointment.visitor_id;
             returnData.visitor_name = visitor.name;
-            returnData.app_date = mainAppointment.app_date;
+            returnData.app_date = item.app_date;
             returnData.app_time = item.app_time;
             returnData.status = item.status;
             returnData.note = mainAppointment.note;
@@ -110,15 +116,19 @@ const getAppointments = async (req, res, next) => {
 
 const approveAppointment = async (req, res, next) => {
     try {
-        const { user_id, sub_app_id } = req.body;
-        var appData = await SubAppointment.findOne({ _id: sub_app_id });
+        const { user_id, sub_app_id, user_type } = req.body;
 
-        const data = Object.assign(
-            appData, { "status": "Approved" }
-        );
-        const doctoravailablity = await data.save();
+        const filter = { _id: sub_app_id };
+        const updateDoc = {
+            $set: {
+                status: "Approved",
+                updated_by: user_id,
+                updater_type: user_type
+            }
+        };
+        const responceData = await SubAppointment.findOneAndUpdate(filter, updateDoc, { returnDocument: 'after' });
 
-        return res.status(200).json({ res_status: true, message: "Successfully approve the appointment", data: doctoravailablity });
+        return res.status(200).json({ res_status: true, message: "Successfully approve the appointment", data: responceData });
     } catch (error) {
         next(error);
     }
@@ -126,15 +136,43 @@ const approveAppointment = async (req, res, next) => {
 
 const rejectAppointment = async (req, res, next) => {
     try {
-        const { user_id, sub_app_id } = req.body;
-        var appData = await SubAppointment.findOne({ _id: sub_app_id });
+        const { user_id, user_type, reject_reason, sub_app_id } = req.body;
 
-        const data = Object.assign(
-            appData, { "status": "Rejected" }
-        );
-        const doctoravailablity = await data.save();
+        const filter = { _id: sub_app_id };
+        const updateDoc = {
+            $set: {
+                status: "Rejected",
+                is_active: false,
+                updated_by: user_id,
+                updater_type: user_type,
+                reject_reason: reject_reason
+            }
+        };
+        const responceData = await SubAppointment.findOneAndUpdate(filter, updateDoc, { returnDocument: 'after' });
 
-        return res.status(200).json({ res_status: true, message: "Successfully reject the appointment", data: doctoravailablity });
+        return res.status(200).json({ res_status: true, message: "Successfully reject the appointment", data: responceData });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+const rescheduleAppointment = async (req, res, next) => {
+    try {
+        const { sub_app_id, user_id, user_type, app_time, app_date } = req.body;
+
+        const filter = { _id: sub_app_id };
+        const updateDoc = {
+            $set: {
+                status: "Rescheduled",
+                updated_by: user_id,
+                updater_type: user_type,
+                app_time: app_time,
+                app_date: app_date
+            }
+        };
+        const responceData = await SubAppointment.findOneAndUpdate(filter, updateDoc, { returnDocument: 'after' });
+        return res.status(200).json({ res_status: true, message: "Successfully update reschedule the appointment", data: responceData });
     } catch (error) {
         next(error);
     }

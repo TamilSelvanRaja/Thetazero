@@ -9,12 +9,6 @@ const appointmentSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "visitors",
     },
-    app_date: {
-        maxlength: 20,
-        type: String,
-        index: true,
-        trim: true,
-    },
     categories: {
         type: String,
         index: true,

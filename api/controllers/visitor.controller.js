@@ -1,6 +1,8 @@
 const Visitors = require('../model/visitor.model');
 const Appointment = require('../model/appointment.model');
 const SubAppointment = require('../model/appointment_sub.model');
+const Exhibitors = require('../model/admin/exhibitors.model');
+
 /**
  * Visitors Functions
  * @public
@@ -16,6 +18,9 @@ exports.visitorfunctions = async (req, res, next) => {
                 break;
             case "book_appointment":
                 bookAppointment(req, res, next);
+                break;
+            case "get_appointment":
+                getAppointment(req, res, next);
                 break;
             default:
                 errfunc(res);
@@ -73,6 +78,7 @@ const bookAppointment = async (req, res, next) => {
         const appointmentsList = JSON.parse(req.body.appointments);
         appointmentsList.forEach(async (element) => {
             element.appointment_id = saveData._id;
+            element.app_date = req.body.app_date;
             element.is_active = true;
             element.status = "New"
             const elementSave = new SubAppointment(element);
@@ -80,6 +86,36 @@ const bookAppointment = async (req, res, next) => {
         });
 
         return res.status(200).json({ res_status: true, message: "Appointment Booking Successfully" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const getAppointment = async (req, res, next) => {
+    try {
+        const { sub_app_id } = req.body;
+
+        const sub_appointment = await SubAppointment.findOne({ _id: sub_app_id, is_active: true, status: "Rescheduled" });
+
+        if (sub_appointment) {
+            var exhibitor = await Exhibitors.findOne({ _id: sub_appointment.exhibitor_id, is_active: true })
+            const main_appointment = await Appointment.findOne({ _id: sub_appointment.appointment_id, is_active: true });
+            const visitor = await Visitors.findOne({ _id: main_appointment.visitor_id });
+            const respoceData = {
+                _id: sub_app_id,
+                organization: exhibitor.name,
+                appointment_id: sub_appointment.appointment_id,
+                visitor_id: main_appointment.visitor_id,
+                visitor_name: visitor.name,
+                app_date: sub_appointment.app_date,
+                app_time: sub_appointment.app_time,
+                note: main_appointment.note,
+            };
+            return res.status(200).json({ res_status: true, message: "Appointment Booking Successfully", data: respoceData });
+
+        } else {
+            return res.status(200).json({ res_status: false, message: "Appointment status unable to fetch" });
+        }
     } catch (error) {
         next(error);
     }

@@ -13,7 +13,12 @@ const appointmentSubSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "appointments",
     },
-
+    app_date: {
+        maxlength: 20,
+        type: String,
+        index: true,
+        trim: true,
+    },
     app_time: {
         maxlength: 20,
         type: String,
@@ -21,6 +26,20 @@ const appointmentSubSchema = new mongoose.Schema({
         trim: true,
     },
     status: {
+        type: String,
+        index: true,
+        trim: true,
+    },
+    updated_by: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "appointments",
+    },
+    updater_type: {
+        type: String,
+        index: true,
+        trim: true,
+    },
+    reject_reason: {
         type: String,
         index: true,
         trim: true,
